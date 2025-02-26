@@ -12,6 +12,9 @@ export default {
         emerald: "#06945d",
         grey: "#8E8E90",
         moldGreen: "#1F4E3C",
+        night: "#2D3134",
+        tangerine: "#E9591B",
+        avocado: "#496C5B",
       },
       backgroundImage: {
         farmImage: "url('/images/farmImage.png')",
