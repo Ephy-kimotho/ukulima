@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Formik, Form } from "formik";
-import { User, Phone, Mail,  Eye, EyeOff } from "lucide-react";
+import { User, Phone, Mail, Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router-dom";
 import { signUpSchema } from "../schemas";
 import Input from "./common/Input";
@@ -28,9 +28,9 @@ function SignUp() {
 
   return (
     <section className="">
-      <header className="pt-3">
+      <Link to="/" className="pt-3 mt-2 block">
         <img src={ukulimaLogo} alt="Ukulima logo" className="ml-5 w-10 h-10" />
-      </header>
+      </Link>
       <Formik
         initialValues={{
           firstName: "",

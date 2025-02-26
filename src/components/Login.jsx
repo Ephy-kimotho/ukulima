@@ -39,9 +39,9 @@ function Login() {
       </article>
 
       <section className="sm:w-1/2">
-        <div className="ml-3 pt-3">
+        <Link to="/" className="ml-3 pt-3 block">
           <img src={logo} alt="ukulima logo" className="w-10 h-10" />
-        </div>
+        </Link>
         <Formik
           initialValues={{ email: "", password: "" }}
           validationSchema={loginSchema}

@@ -12,13 +12,13 @@ function Header() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const baseStyles =
-    "text-night font-semibold font-mulish text-lg hover:text-tangerine capitalize tracking-wide";
+    "text-night font-semibold font-mulish text-lg hover:text-tangerine capitalize tracking-widest";
   const activeStlyes = `${baseStyles} text-tangerine transition-colors duration-300`;
 
   return (
-    <header className="">
+    <header>
       {/* TABLET AND DESKTOP NAVIGATION BAR */}
-      <section className="py-3 px-4 sm:px-8 bg-white shadow-md flex items-center justify-between">
+      <section className="py-3 px-4 sm:px-2 lg:px-8 bg-white shadow-md flex items-center justify-between">
         {/* Logo */}
         <Link to="/">
           <img
@@ -29,7 +29,7 @@ function Header() {
         </Link>
 
         {/*Tablet and Desktop Navigation bar */}
-        <nav className="hidden md:flex gap-14">
+        <nav className="hidden md:flex gap-8 lg:gap-14">
           <NavLink
             to="/"
             className={({ isActive }) => (isActive ? activeStlyes : baseStyles)}
@@ -120,7 +120,7 @@ function Header() {
             Contact us
           </NavLink>
         </nav>
-        <div className="flex flex-col mb-10 gap-4">
+        <div className="flex flex-col pb-32 gap-4">
           <Link
             to="login"
             className="py-2 px-8 bg-avocado text-white font-bold font-mulish tracking-wider rounded-xl text-base border-2 border-transparent hover:border-avocado hover:text-avocado hover:bg-white w-2/5 mx-auto text-center"
