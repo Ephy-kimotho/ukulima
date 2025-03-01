@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-const {fontFamily} = require("tailwindcss/defaultTheme");
+//const {fontFamily} = require("tailwindcss/defaultTheme");
 
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
@@ -25,7 +25,8 @@ export default {
         aboutImageSm: "url('/images/about.jpg')",
         smallPlant: "url('/images/smallPlant.jpg')",
         dairy: "url('/images/dairy.png')",
-        contact: "url('/images/contact3.png')"
+        contact: "url('/images/contact3.png')",
+        mobileContact: "url('/images/contact5.jpg')",
       },
       boxShadow: {
         overlay: "inset 0 0 0 1000px rgba(0,0,0,0.70)",

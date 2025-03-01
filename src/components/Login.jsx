@@ -70,6 +70,7 @@ function Login() {
                 id="email"
                 placeholder="Enter your email."
                 icon={Mail}
+                moreStyles="bg-moldGreen bg-opacity-20  border-2 border-moldGreen border-opacity-30"
               />
             </div>
 
@@ -87,6 +88,7 @@ function Login() {
                 icon={showPassword ? Eye : EyeOff}
                 placeholder="Enter your password."
                 togglePassword={togglePassword}
+                moreStyles="bg-moldGreen bg-opacity-20  border-2 border-moldGreen border-opacity-30"
               />
             </div>
 

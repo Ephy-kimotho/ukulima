@@ -1,7 +1,11 @@
 /* eslint-disable react/prop-types */
-function Button({ children, action, moreStyles }) {
+function Button({ children, action, moreStyles, type = "button" }) {
   return (
-    <button onClick={() => action()} className={`${moreStyles} py-2`}>
+    <button
+      type={type}
+      onClick={() => action()}
+      className={`${moreStyles} py-2`}
+    >
       {children}
     </button>
   );

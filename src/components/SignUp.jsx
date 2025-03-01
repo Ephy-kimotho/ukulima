@@ -56,6 +56,7 @@ function SignUp() {
               name="firstName"
               placeholder="First Name"
               icon={User}
+              moreStyles="bg-moldGreen bg-opacity-20  border-2 border-moldGreen border-opacity-30"
             />
 
             <Input
@@ -63,16 +64,24 @@ function SignUp() {
               name="lastName"
               placeholder="Last Name"
               icon={User}
+              moreStyles="bg-moldGreen bg-opacity-20  border-2 border-moldGreen border-opacity-30"
             />
           </div>
 
-          <Input type="email" name="email" placeholder="Email" icon={Mail} />
+          <Input
+            type="email"
+            name="email"
+            placeholder="Email"
+            icon={Mail}
+            moreStyles="bg-moldGreen bg-opacity-20  border-2 border-moldGreen border-opacity-30"
+          />
 
           <Input
             type="text"
             name="phone"
             placeholder="Phone Number"
             icon={Phone}
+            moreStyles="bg-moldGreen bg-opacity-20  border-2 border-moldGreen border-opacity-30"
           />
 
           <Input
@@ -81,6 +90,7 @@ function SignUp() {
             placeholder="Password"
             icon={showPassword ? Eye : EyeOff}
             togglePassword={togglePassword}
+            moreStyles="bg-moldGreen bg-opacity-20  border-2 border-moldGreen border-opacity-30"
           />
 
           <div className="text-center my-6">
