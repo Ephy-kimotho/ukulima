@@ -5,6 +5,7 @@ import Cart from "../components/cart/Cart";
 import ContactPage from "../components/contact/ContactPage";
 import HomePage from "../components/home/HomePage";
 import Products from "../components/products/Products";
+import ProfilePage from "../components/profile/ProfilePage";
 
 const routes = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const routes = createBrowserRouter([
       {
         path: "products",
         element: <Products />,
+      },
+      {
+        path:"profile",
+        element:<ProfilePage/>
       },
     ],
   },
