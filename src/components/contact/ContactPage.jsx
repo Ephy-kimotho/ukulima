@@ -1,26 +1,78 @@
+import { Formik, Form } from "formik";
+import Input from "../common/Input";
+import Button from "../common/Button";
+import Textarea from "../common/Textarea";
+import { contactFormSchema } from "../../schemas";
 
 function ContactPage() {
+  const handleSubmit = async (values, action) => {
+    /* REPLACE WITH REAL API CALL FOR SIGNUP */
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 1500);
+    });
+
+    console.log(values);
+    action.resetForm();
+  };
+
   //JS here
   return (
-    <div class="bg-white">
-      <div className="bg-contact shadow-overlay h-[41rem] pl-[8rem] pt-[5rem]">
-        <h1 className="text-white font-bold text-5xl font-nunito pb-[1rem] tracking-wide">Do you have any <br/>Questions?</h1> <br />
-        <p className="text-white font-regular text-3xl font-nunito tracking-wide"> We're here to help! Reach out to us for <br />inquiries, support, or feedback, and we'll <br />get back to you as soon as possible.</p><br />
+    <div className="bg-[#f1f3f5]">
+      <div className="bg-mobileContact sm:bg-contact shadow-overlay min-h-screen bg-no-repeat bg-center  bg-cover flex flex-col  justify-center pl-4 md:pl-8  space-y-8">
+        <h1 className="text-white font-bold text-5xl font-nunito  tracking-wide text-balance">
+          Do you have any questions?
+        </h1>
+        <p className="text-white font-regular text-lg md:text-xl font-nunito max-w-80 md:max-w-2xl text-balance tracking-wide">
+        We&apos;re here to help! Reach out to us for inquiries, support, or feedback, and we&apos;ll get back to you as soon as possible.
+        </p>
+        <br />
       </div>
-      
-      <div  className=" max-w-4xl mx-auto pb-9">
-        <p className="text-teal-900 text-4xl font-bold text-center mt-[4.5rem] font-nunito"> CONTACT FORM </p>
-        <p className="text-teal-900 font-extrabold text-center mb-[3rem]">______________________</p>
-        <form action="" className="bg-zinc-300 p-8 rounded-3xl m-8">
-          <input type="text" name="firstName" required placeholder="Enter your first name" className="w-full h-[4.5rem] p-3 rounded-md border-gray-500 border-2 text-black text-2xl font-nunito placeholder:italic"/><br /><br />
-          <input type="email" name="email" required placeholder="Enter your email" className="w-full h-[4.5rem] p-3 rounded-md border-2 border-gray-500 text-black text-2xl font-nunito invalid:text-rose-500 placeholder:italic"/><br /><br />
-          <textarea name="message" required className="w-full min-h-56 rounded-md border-2 border-gray-500 p-2 text-black text-2xl font-nunito placeholder:italic" placeholder="Enter your message..."/><br /><br />
-          <button type="submit" className="bg-teal-900 p-4 w-max rounded-2xl text-xl mt-8 mb-4 mx-[18.5rem] hover:bg-teal-800 active:bg-teal-900">Send Message</button>
-        </form>
+
+      <div className=" max-w-4xl mx-auto pb-9">
+        <p className="text-mint text-4xl font-bold text-center mt-[4.5rem] font-nunito">
+          CONTACT FORM
+        </p>
+        <div className="w-[190px] h-[5px] bg-mint rounded-lg mx-auto mt-2"></div>
+
+        <Formik
+          initialValues={{
+            firstName: "",
+            email: "",
+            message: "",
+          }}
+          validationSchema={contactFormSchema}
+          onSubmit={handleSubmit}
+        >
+          <Form className="bg-zinc-300 p-8 rounded-3xl m-8 w-11/12 mx-auto">
+            <Input
+              type="text"
+              name="firstName"
+              placeholder="Enter your first name."
+              moreStyles="bg-white bg-opacity-100 text-night border-2 border-moldGreen border-opacity-50 pl-4"
+            />
+            <Input
+              type="email"
+              name="email"
+              placeholder="Enter your email."
+              moreStyles="bg-white bg-opacity-100 text-night border-2 border-moldGreen border-opacity-50 pl-4"
+            />
+
+            <Textarea name="message" placeholder="Enter your message" />
+            <div className="text-center">
+              <Button
+                type="submit"
+                moreStyles="bg-mint text-white px-14 py-3 rounded-lg font-bold active:scale-95 hover:bg-emerald text-lg capitalize"
+              >
+                Send message
+              </Button>
+            </div>
+          </Form>
+        </Formik>
       </div>
     </div>
-
-  )
+  );
 }
 
-export default ContactPage
+export default ContactPage;
