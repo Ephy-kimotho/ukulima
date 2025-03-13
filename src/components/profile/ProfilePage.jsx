@@ -1,43 +1,38 @@
-import { CircleUserRound, PowerIcon} from "lucide-react"
+import { PowerIcon } from "lucide-react";
+import { FaUserCircle } from "react-icons/fa";
 
 function ProfilePage() {
   //Js here
   return (
-    <div className="bg-stone-200 min-h-screen items-center flex flex-col font-nunito">
-      <div className="h-full">
-        <div className="mt-12 mb-8 justify-self-center">
-          <CircleUserRound color="#000" size={200} />
-          <p className="text-stone-900 text-3xl font-semibold mt-5">
-          Hello John Doe
-        </p>
+    <section className="bg-stone-200 min-h-screen font-nunito relative">
+      <div className="">
+        <article className="pt-16 mb-8 flex flex-col items-center">
+          <FaUserCircle color="#000" size={120} />
+          <p className="text-stone-900 text-4xl font-semibold">
+            Hello John Doe
+          </p>
+        </article>
+
+        <div className="w-11/12 max-w-md space-y-6  mx-auto text-2xl">
+          <p className="text-black border-b-2 border-black">
+            <span className="font-semibold">Full Name:</span>
+            <span className="pl-2"> John Doe</span>
+          </p>
+
+          <p className="text-black flex border-b-2 border-black">
+            <span className="font-semibold">Email:</span>
+            <span className="pl-2"> johndoe@gmail.com</span>
+          </p>
         </div>
-        <div className="w-full max-w-md text-3xl mt-8">
-          <div className="text-black flex mt-5">
-            <p className="font-semibold">
-              Full Name:
-            </p>
-            <p className="pl-2">
-              John Doe
-            </p>
-          </div>
-          <div className="bg-black pt-[0.26rem]"/>
-          <div className="text-black flex mt-8">
-            <p className="font-semibold">
-              Email:
-            </p>
-            <p className="pl-2">
-              johndoe@gmail.com
-            </p>
-          </div>
-          <div className="bg-black pt-[0.26rem]"/>
-        </div>
-        <div className="justify-self-center">
-          <button type="submit" className="border-2 font-bold text-3xl bg-teal-900 p-2 px-10 text-white mt-56 rounded-2xl flex items-center gap-3 active:bg-rose-600
-          active:text-white
-          active:border-stone-200 hover:text-teal-900 hover:bg-stone-200 hover:border-teal-900 hover:text-2xl" ><PowerIcon/> Log out</button>
+
+        {/* LOG OUT BUTTON */}
+        <div className="absolute bottom-10 left-0 right-0 flex justify-center">
+          <button className="flex items-center py-3 justify-center text-2xl font-bold rounded-xl gap-2 w-52 bg-moldGreen tracking-wider hover:scale-105 cursor-pointer active:scale-95 text-white">
+            <PowerIcon /> Log out
+          </button>
         </div>
       </div>
-    </div>
-  )
+    </section>
+  );
 }
-export default ProfilePage
+export default ProfilePage;
