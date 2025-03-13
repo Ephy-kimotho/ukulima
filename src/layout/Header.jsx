@@ -88,7 +88,7 @@ function Header() {
       <section
         className={`bg-zinc-200 absolute w-full min-h-screen flex flex-col justify-between md:hidden ${
           isMenuOpen ? "block" : "hidden"
-        }`}
+        } z-[999]`}
       >
         <nav className="flex flex-col gap-6 items-center mt-10">
           <NavLink
