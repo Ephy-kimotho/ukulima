@@ -1,0 +1,72 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "image": "/images/Maize_seeds.jpg",
+      "name": "Maize seedlings",
+      "category": "seeds",
+      "description": "mjdbvi ioubhi iwhfighih vioehgi kndvi",
+      "price": 120,
+      "stock": 100
+    },
+    {
+      "id": 2,
+      "image": "/images/mango_seeds.jpeg",
+      "name": "Mango seedlings",
+      "category": "seeds",
+      "description": "jkbnkk jn nijg niofij ihih jnihf jkewih xjnitwi.",
+      "price": 220,
+      "stock": 60
+    },
+    {
+      "id": 3,
+      "image": "/images/milker.jpeg",
+      "name": "Cow Milker",
+      "category": "Farm equipment",
+      "description": "nkdvnnribh iidv  igiqh iohg ifrhgio2f 1hihrgnjnfiv.",
+      "price": 15000,
+      "stock": 215
+    },
+    {
+      "id": 4,
+      "image": "/images/potash.jpeg",
+      "name": "Potash",
+      "category": "fertilizer",
+      "description": "fib ivknfih kjiewh ioojejgirtn ihibiwjqomvkn adnir iihg. ",
+      "price": 2200,
+      "stock": 300
+    },
+    {
+      "id": 5,
+      "image": "/images/poulty_feeder.jpeg",
+      "name": "Mash feeder",
+      "category": "Farm equipment",
+      "description": "mfdbjk iqfjb jfioh ifighbiwnq iewrhiqkvir3hiv iwfirhg ioqgh.",
+      "price": 2500,
+      "stock": 0
+    },
+    {
+      "id": 6,
+      "image": "/images/tiler.jpeg",
+      "name": "Farm tiller",
+      "category": "Farm equipment",
+      "description": "jkfvj idj wiefjgiojt iohfgioh iwhfegiortbk kehgiobk iorhgio.",
+      "price": 3500,
+      "stock": 320
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "Seeds"
+    },
+    {
+      "id": 2,
+      "name": "Farm equipment"
+    },
+    {
+      "id": 3,
+      "name": "Fertilizer"
+    }
+  ]
+}
