@@ -16,7 +16,7 @@ function Header() {
   const activeStlyes = `${baseStyles} text-tangerine transition-colors duration-300`;
 
   return (
-    <header>
+    <header className="relative z-60 shadow">
       {/* TABLET AND DESKTOP NAVIGATION BAR */}
       <section className="py-3 px-4 sm:px-2 lg:px-8 bg-white shadow-md flex items-center justify-between">
         {/* Logo */}
