@@ -5,6 +5,7 @@ import Cart from "../components/cart/Cart";
 import ContactPage from "../components/contact/ContactPage";
 import HomePage from "../components/home/HomePage";
 import Products from "../components/products/Products";
+import ProductDetail from "../components/products/ProductDetail";
 import ProfilePage from "../components/profile/ProfilePage";
 import SignUp from "../components/SignUp";
 import Login from "../components/Login";
@@ -36,8 +37,12 @@ const routes = createBrowserRouter(
           element: <Products />,
         },
         {
-        path:"profile",
-        element:<ProfilePage/>
+          path: "products/:id",
+          element: <ProductDetail />,
+        },
+        {
+          path: "profile",
+          element: <ProfilePage />,
         },
       ],
     },
@@ -59,7 +64,6 @@ const routes = createBrowserRouter(
       v7_relativeSplatPath: true,
     },
   }
-  
 );
 
 export default routes;
