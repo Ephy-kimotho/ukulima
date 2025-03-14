@@ -10,6 +10,8 @@ export default {
         nunito: ["Nunito", "sans-serif"],
         quciksand: ["Quicksand", "sans-serif"],
         mulish: ["Mulish", "sans-serif"],
+        montserrat: ["Montserrat", "sans-serif"],
+        poppins: ["Poppins", "sans-serif"],
       },
       colors: {
         emerald: "#06945d",
@@ -19,6 +21,7 @@ export default {
         tangerine: "#E9591B",
         avocado: "#496C5B",
         mint: "#204E51",
+        lightGrey: "#F0F0F0",
       },
       backgroundImage: {
         farmImage: "url('/images/farmImage.png')",
