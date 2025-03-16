@@ -24,7 +24,7 @@ function useAxios(url) {
         .finally(() => {
           setIsLoading(false);
         });
-    }, 500);
+    }, 3500);
   }, [url]);
 
   return { data, isLoading, error };

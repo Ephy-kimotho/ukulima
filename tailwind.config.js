@@ -6,6 +6,17 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      keyframes: {
+        beat: {
+          "0%": { opacity: 1 },
+          "50%": { opacity: 0.55 },
+          "100%": { opacity: 1 },
+        },
+      },
+      animation: {
+        beat: "beat 2s linear infinite",
+      },
+
       fontFamily: {
         nunito: ["Nunito", "sans-serif"],
         quciksand: ["Quicksand", "sans-serif"],
