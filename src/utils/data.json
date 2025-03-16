@@ -4,18 +4,18 @@
       "id": 1,
       "image": "/images/Maize_seeds.jpg",
       "name": "Maize seedlings",
-      "category": "seeds",
+      "category": "Seeds",
       "description": "mjdbvi ioubhi iwhfighih vioehgi kndvi",
-      "price": 120,
+      "price": 1200,
       "stock": 100
     },
     {
       "id": 2,
       "image": "/images/mango_seeds.jpeg",
       "name": "Mango seedlings",
-      "category": "seeds",
+      "category": "Seeds",
       "description": "jkbnkk jn nijg niofij ihih jnihf jkewih xjnitwi.",
-      "price": 220,
+      "price": 900,
       "stock": 60
     },
     {
@@ -31,9 +31,9 @@
       "id": 4,
       "image": "/images/potash.jpeg",
       "name": "Potash",
-      "category": "fertilizer",
+      "category": "Fertilizer",
       "description": "fib ivknfih kjiewh ioojejgirtn ihibiwjqomvkn adnir iihg. ",
-      "price": 2200,
+      "price": 3200,
       "stock": 300
     },
     {
