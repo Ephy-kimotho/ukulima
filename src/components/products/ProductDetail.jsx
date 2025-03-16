@@ -47,8 +47,8 @@ function ProductDetail() {
                 <span>{selectedItem?.name}</span>
               </li>
               <li>
-                <span className="font-bold">Availability: </span>
-                <span>{selectedItem?.category}</span>
+                <span className="font-bold">Stock: </span>
+                <span>{selectedItem?.stock}</span>
               </li>
               <li>
                 <span className="font-bold">Price: </span>
