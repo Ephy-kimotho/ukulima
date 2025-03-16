@@ -9,9 +9,7 @@ function ProductCard({ image, name, price, stock }) {
         className="w-full object-cover h-1/3 aspect-square rounded-t-xl"
       />
       <div className="m-4">
-        <p className="text-2xl text-mint capitalize font-semibold">
-          {name}
-        </p>
+        <p className="text-2xl text-mint capitalize font-semibold">{name}</p>
         <p
           className={`${
             stock > 0 ? "text-mint" : "text-red-500"

@@ -41,10 +41,14 @@ function ProductDetail() {
                 className="w-1/3 self-stretch rounded"
               />
             )}
-            <ul className="bg-[#D9D9D9] self-stretch text-night p-8 gap-4 lg:gap-12 rounded-md text-xl flex flex-1 flex-col md:justify-center list-none">
+            <ul className="bg-[#D9D9D9] self-stretch text-night p-8 gap-0 lg:gap-12 rounded-md text-xl flex flex-1 flex-col md:justify-center list-none">
               <li>
                 <span className="font-bold">Name: </span>
                 <span>{selectedItem?.name}</span>
+              </li>
+              <li>
+                <span className="font-bold">Category: </span>
+                <span>{selectedItem?.category}</span>
               </li>
               <li>
                 <span className="font-bold">Stock: </span>
