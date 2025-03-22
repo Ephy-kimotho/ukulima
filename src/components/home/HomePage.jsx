@@ -1,8 +1,16 @@
+import Landing from "./Landing";
+import FeaturedProducts from "./FeaturedProducts";
+import Testimonials from "./Testimonials";
+import CTA from "./CTA";
+
 function HomePage() {
   return (
-    <div>
-      <p>This is the home page</p>
-    </div>
+    <section>
+      <Landing />
+      <FeaturedProducts />
+      <Testimonials />
+      <CTA />
+    </section>
   );
 }
 

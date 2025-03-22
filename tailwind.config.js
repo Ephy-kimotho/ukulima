@@ -1,14 +1,28 @@
 /** @type {import('tailwindcss').Config} */
-//const {fontFamily} = require("tailwindcss/defaultTheme");
+
+//const {fontFamily} = require("tailwindcss/defaultTheme")
 
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      keyframes: {
+        beat: {
+          "0%": { opacity: 1 },
+          "50%": { opacity: 0.525 },
+          "100%": { opacity: 1 },
+        },
+      },
+      animation: {
+        beat: "beat 2s linear infinite",
+      },
+
       fontFamily: {
         nunito: ["Nunito", "sans-serif"],
         quciksand: ["Quicksand", "sans-serif"],
         mulish: ["Mulish", "sans-serif"],
+        montserrat: ["Montserrat", "sans-serif"],
+        poppins: ["Poppins", "sans-serif"],
       },
       colors: {
         emerald: "#06945d",
@@ -18,6 +32,7 @@ export default {
         tangerine: "#E9591B",
         avocado: "#496C5B",
         mint: "#204E51",
+        lightGrey: "#F0F0F0",
       },
       backgroundImage: {
         farmImage: "url('/images/farmImage.png')",
