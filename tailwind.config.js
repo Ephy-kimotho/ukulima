@@ -9,7 +9,7 @@ export default {
       keyframes: {
         beat: {
           "0%": { opacity: 1 },
-          "50%": { opacity: 0.55 },
+          "50%": { opacity: 0.525 },
           "100%": { opacity: 1 },
         },
       },
