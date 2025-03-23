@@ -1,9 +1,12 @@
 import { REQUESTING, ON_SUCCESS, ON_ERROR } from "../../constants";
 
+/* Load stored products from local storage */
+const storedProducts = JSON.parse(localStorage.getItem("products")) || [];
+
 /* Defining intial state for products */
 const initialState = {
   isLoading: false,
-  products: [],
+  products: storedProducts,
   error: {},
 };
 
@@ -16,6 +19,7 @@ function producerReducer(state = initialState, action) {
         isLoading: true,
       };
     case ON_SUCCESS:
+      localStorage.setItem("products", JSON.stringify(action.payload));
       return {
         ...state,
         isLoading: false,
