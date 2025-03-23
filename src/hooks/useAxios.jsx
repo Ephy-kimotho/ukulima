@@ -15,7 +15,6 @@ function useAxios(url) {
       axios
         .get(url, { headers: { Accept: "application/json" } })
         .then((res) => {
-          console.log(res.data);
           setData(res.data);
         })
         .catch((err) => {
