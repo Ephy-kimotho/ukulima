@@ -1,15 +1,22 @@
 import { useSearchParams } from "react-router-dom";
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import { BASE_URL } from "../../constants";
 import { ascendingSort, descendingSort } from "../../utils";
+import { useSelector, useDispatch } from "react-redux";
+import { getProducts } from "../../redux/products/productActions";
 import useAxios from "../../hooks/useAxios";
 import ProductListing from "./ProductListing";
 import ProductCardSkeletonWrapper from "../../skeletons/ProductCardSkeleton";
 
 function Products() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data: products, isLoading } = useAxios(`${BASE_URL}/products`);
   const { data: categories } = useAxios(`${BASE_URL}/categories`);
+  const { isLoading, products } = useSelector((state) => state.products);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
 
   // Get the search parameters if they exists
   const category = searchParams.get("category") || "";
@@ -57,29 +64,6 @@ function Products() {
 
     return updatedProducts;
   }, [products, category, sortMethod]);
-
-  /*  const filteredProducts = useMemo(() => {
-    if (!products) return [];
-
-    let updatedProducts = [...products]; // Clone to avoid modifying the original array
-
-    // Filter by category if selected
-    if (category) {
-      updatedProducts = updatedProducts.filter(
-        (product) => product.category === category
-      );
-    }
-
-    // Apply sorting only if a sort method is selected
-    if (sortMethod === "ascending") {
-      updatedProducts = ascendingSort(updatedProducts);
-    } else if (sortMethod === "descending") {
-      updatedProducts = descendingSort(updatedProducts);
-    }
-    // Else, return in original order (no sorting applied)
-
-    return updatedProducts;
-  }, [category, sortMethod, products]); */
 
   return (
     <section className="bg-amber-50 min-h-screen pt-6 pb-20">
