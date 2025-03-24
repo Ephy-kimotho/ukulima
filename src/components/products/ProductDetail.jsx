@@ -1,21 +1,39 @@
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useMemo } from "react";
+import { addToCart } from "../../redux/cart/cartActions";
 import Button from "../common/Button";
 
 function ProductDetail() {
   const { id } = useParams();
   const { products } = useSelector((state) => state.products);
+  const { cart } = useSelector((state) => state.shoppingCart);
+  const dispatch = useDispatch();
 
   const selectedItem = useMemo(() => {
     if (products.length === 0) return null;
     return products?.find((product) => product.id.toString() === id);
   }, [products, id]);
 
+
+  console.log(selectedItem)
+
   // TODO: write add to cart function.
   const addItemToCart = () => {
-    console.log("Item added to cart");
+    //Check if user is authenticated
+    // if not redirect to login
+    // check if product is already in cart
+    const productIsInCart = cart.some((item) => item.id === selectedItem.id);
+    // if it's show toast message
+    if (productIsInCart) {
+      alert("Product is already in the cart");
+    }
+    // if it's not the dispatch product
+    else {
+      dispatch(addToCart({ ...selectedItem, quantity: 1 }));
+      alert(`${selectedItem.name} added to cart`);
+    }
   };
 
   return (
