@@ -41,3 +41,15 @@ export const contactFormSchema = Yup.object({
     .min(10, "Should be atleast 10 characters.")
     .required("Required*"),
 });
+
+export const checkoutSchema = Yup.object({
+  destination: Yup.string().min(4, "Should be more than 4 characters.").required("Required*"),
+  phone: Yup.string()
+      .matches(/^\S*$/, "Phone number must not contain whitespaces")
+      .matches(
+          /^\d+$/,
+          "Phone number can only contain digits"
+      )
+      .matches(/^\d{10,}$/, "Phone number must be at least 10 digits long")
+      .required("Required*"),
+})
