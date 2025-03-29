@@ -9,6 +9,7 @@ import ProductDetail from "../components/products/ProductDetail";
 import ProfilePage from "../components/profile/ProfilePage";
 import SignUp from "../components/SignUp";
 import Login from "../components/Login";
+import OrderPage from "../components/orders/OrderPage";
 
 const routes = createBrowserRouter(
   [
@@ -43,6 +44,10 @@ const routes = createBrowserRouter(
         {
           path: "profile",
           element: <ProfilePage />,
+        },
+        {
+          path: "orders",
+          element: <OrderPage />,
         },
       ],
     },
