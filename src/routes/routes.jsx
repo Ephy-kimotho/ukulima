@@ -9,6 +9,7 @@ import ProductDetail from "../components/products/ProductDetail";
 import ProfilePage from "../components/profile/ProfilePage";
 import SignUp from "../components/SignUp";
 import Login from "../components/Login";
+import ProtectedRoute from "../components/common/ProtectedRoute";
 
 const routes = createBrowserRouter(
   [
@@ -26,7 +27,11 @@ const routes = createBrowserRouter(
         },
         {
           path: "cart",
-          element: <Cart />,
+          element: (
+            <ProtectedRoute>
+              <Cart />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "contact",
@@ -42,7 +47,11 @@ const routes = createBrowserRouter(
         },
         {
           path: "profile",
-          element: <ProfilePage />,
+          element: (
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          ),
         },
       ],
     },
