@@ -15,6 +15,16 @@ function Cart() {
 
   const isCartEmpty = cart?.length === 0;
 
+  const subtotal = cart?.reduce((sum, item) => {
+    if (Object.keys(item).length > 0) {
+      sum += item.price * item.quantity;
+    }
+    return sum;
+  }, 0);
+
+  const deliveryFee = isCartEmpty ? 0 : 200;
+  const grandTotal = subtotal + deliveryFee;
+
   return (
     <section className="bg-[#f0f0f0] py-10  min-h-screen relative">
       {showCheckout && <Checkout toggleCheckout={toggleCheckout} />}
@@ -37,11 +47,16 @@ function Cart() {
         </div>
       )}
 
-      <OrderSummary subtotal={1800} deliveryFee={200} grandTotal={2000} />
+      <OrderSummary
+        subtotal={subtotal}
+        deliveryFee={deliveryFee}
+        grandTotal={grandTotal}
+      />
 
       <div className="absolute  bottom-10 w-full flex justify-center ">
         <Button
           action={toggleCheckout}
+          disabled={isCartEmpty}
           moreStyles="bg-mint hover:bg-emerald active:scale-95 py-4 px-16 text-white text-xl font-bold rounded-xl"
         >
           Confrim Order

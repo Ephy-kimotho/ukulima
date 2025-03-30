@@ -1,6 +1,8 @@
 import { Trash2 } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { removeFromCart, changeQuantity } from "../../redux/cart/cartActions";
+import toast from "react-hot-toast";
+import WarningToast from "../common/WarningToast";
 
 function CartProduct(product) {
   const dispatch = useDispatch();
@@ -10,7 +12,14 @@ function CartProduct(product) {
     let newProduct = { ...product };
     // if type is increase then add 1 to quantity
     if (type === "increase") {
-      newProduct = { ...newProduct, quantity: newProduct.quantity + 1 };
+      // check if quantity is less than stock
+      if (newProduct.quantity < product.stock) {
+        newProduct = { ...newProduct, quantity: newProduct.quantity + 1 };
+      } else {
+        toast.custom(
+          <WarningToast message={`${product.name} is out of stock`} />
+        );
+      }
     }
     // if type is decrease and the quantity is greater than 1, decrease quantity
     else if (type === "decrease") {
