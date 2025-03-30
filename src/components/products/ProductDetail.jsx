@@ -1,38 +1,52 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { useMemo } from "react";
 import { addToCart } from "../../redux/cart/cartActions";
+import useAuth from "../../hooks/useAuth";
 import Button from "../common/Button";
+import toast from "react-hot-toast";
+import WarningToast from "../common/WarningToast";
 
 function ProductDetail() {
   const { id } = useParams();
   const { products } = useSelector((state) => state.products);
   const { cart } = useSelector((state) => state.shoppingCart);
+  const { token } = useAuth();
+  const { pathname } = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const selectedItem = useMemo(() => {
     if (products.length === 0) return null;
     return products?.find((product) => product.id.toString() === id);
   }, [products, id]);
 
-
-  console.log(selectedItem)
-
   // TODO: write add to cart function.
   const addItemToCart = () => {
     //Check if user is authenticated
-    // if not redirect to login
-    // check if product is already in cart
-    const productIsInCart = cart.some((item) => item.id === selectedItem.id);
-    // if it's show toast message
-    if (productIsInCart) {
-      alert("Product is already in the cart");
+    if (token) {
+      // check if product is already in cart
+      const productIsInCart = cart.some((item) => item.id === selectedItem.id);
+      // if it's show toast message
+      if (productIsInCart) {
+        toast.custom(
+          <WarningToast
+            message={`${selectedItem.name} is already in the cart.`}
+          />
+        );
+      }
+      // if it's not the dispatch product
+      else {
+        dispatch(addToCart({ ...selectedItem, quantity: 1 }));
+        toast.success(`${selectedItem.name} added to cart`);
+      }
     }
-    // if it's not the dispatch product
+    // if not authenticated redirect to login
     else {
-      dispatch(addToCart({ ...selectedItem, quantity: 1 }));
-      alert(`${selectedItem.name} added to cart`);
+      navigate("/login", {
+        state: { message: "You must login first.", path: pathname },
+      });
     }
   };
 
@@ -87,7 +101,8 @@ function ProductDetail() {
         <div className="text-center mt-20">
           <Button
             action={addItemToCart}
-            moreStyles="font-bold text-white px-20 py-4 hover:bg-emerald rounded-xl bg-mint text-xl active:scale-95 cursor-pointer tracking-wider"
+            disabled={selectedItem.stock === 0}
+            moreStyles="font-bold text-white px-20 py-4 hover:bg-emerald rounded-xl bg-mint text-xl active:scale-95 cursor-pointer tracking-wider shadow-md"
           >
             Add to cart
           </Button>
