@@ -1,33 +1,38 @@
 import { useState } from "react";
 import { Formik, Form } from "formik";
+import { useNavigate } from "react-router-dom";
 import { User, Phone, Mail, Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router-dom";
 import { signUpSchema } from "../schemas";
+import { BASE_URL } from "../constants";
+import axios from "axios";
+import useAuth from "../hooks/useAuth";
 import Input from "./common/Input";
 import AuthButton from "./common/AuthButton";
 import ukulimaLogo from "/icons/logo.png";
+import toast, { Toaster } from "react-hot-toast";
 
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const { setUser } = useAuth();
 
   // Function to toggle password visibility
   const togglePassword = () => setShowPassword(!showPassword);
 
   //Function to handle Form Submission
   const handleSubmit = async (values, action) => {
-    /* REPLACE WITH REAL API CALL FOR SIGNUP */
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 1500);
-    });
-
-    console.log(values);
+    /* Mock sign up using json-server*/
+    const { data } = await axios.post(`${BASE_URL}/users`, values);
+    setUser(data);
     action.resetForm();
+    toast.success("Account created successfully.");
+    navigate("/login");
   };
 
   return (
     <section className="">
+      <Toaster position="top-center"/>
       <Link to="/" className="pt-3 mt-2 block">
         <img src={ukulimaLogo} alt="Ukulima logo" className="ml-5 w-10 h-10" />
       </Link>

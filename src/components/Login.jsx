@@ -1,32 +1,67 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Formik, Form } from "formik";
-import { Link } from "react-router-dom";
-import AuthButton from "./common/AuthButton";
-import Input from "./common/Input";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Mail, Eye, EyeOff } from "lucide-react";
 import { loginSchema } from "../schemas";
+import { BASE_URL } from "../constants";
+import toast, { Toaster } from "react-hot-toast";
+import AuthButton from "./common/AuthButton";
+import Input from "./common/Input";
+import WarningToast from "./common/WarningToast";
 import logo from "/icons/logo.png";
+import useAuth from "../hooks/useAuth";
+import axios from "axios";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [storedUser, setStoredUser] = useState(null);
+  const { state } = useLocation();
+  const { setToken } = useAuth();
+  const navigate = useNavigate();
+  const hasShownToast = useRef(false);
+
+  // when the component mounts get the user from local storage
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      setStoredUser(user);
+    }
+  }, []);
+
+  const message = state?.message || null;
+  const path = state?.path || "/";
+
+  useEffect(() => {
+    if (message && !hasShownToast.current) {
+      toast.custom(<WarningToast message={message} />);
+      hasShownToast.current = true;
+    }
+  }, [message]);
 
   //Function to toggle password visibility
   const togglePassword = () => setShowPassword(!showPassword);
 
-  //Function to handle form submission
+  //Function to handle login form submission
   const handleSubmit = async (values, action) => {
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 1500);
-    });
-
-    console.log(values);
-    action.resetForm();
+    const { data: foundUser } = await axios.get(
+      `${BASE_URL}/users/${storedUser.id}`
+    );
+    if (
+      values.email === foundUser.email &&
+      values.password === foundUser.password
+    ) {
+      action.resetForm();
+      setToken(true);
+      toast.success("Login successful.");
+      navigate(path);
+    } else {
+      toast.custom(<WarningToast message="Invalid credentials!" />);
+    }
   };
 
   return (
     <section className="flex flex-col sm:flex-row min-h-screen">
+      <Toaster position="top-center" />
       <article className="bg-farmImage bg-cover bg-origin-content bg-left-bottom bg-no-repeat  hidden sm:flex w-1/2 flex-col items-center gap-20">
         <h2 className="font-bold font-nunito text-white text-5xl mt-24">
           Ukulima
@@ -49,8 +84,8 @@ function Login() {
         >
           <Form className="w-11/12 max-w-2xl mx-auto min-h-[90vh]  relative">
             <div className="text-center mb-5">
-              <h3 className="text-emerald font-bold font-nunito text-3xl">
-                Welcome back
+              <h3 className="text-emerald font-bold font-nunito  capitalize text-3xl">
+                Welcome {storedUser ? `back ${storedUser.firstName}` : "back"}
               </h3>
               <p className="text-grey font-nunito text-base">
                 Log in to your account
