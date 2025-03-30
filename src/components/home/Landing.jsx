@@ -1,7 +1,9 @@
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 function Landing() {
+  const { token } = useAuth();
   return (
     <section
       className={` text-white min-h-screen bg-[url(/images/tractor.png)] md:bg-[url(/images/home.png)] bg-no-repeat bg-cover bg-center md:bg-(position:--bg-postion) lg:bg-center shadow-overlay md:shadow-none flex justify-center items-center  `}
@@ -15,11 +17,15 @@ function Landing() {
           place. Shop smarter, grow better, and harvest success with Ukulima.
         </p>
         <Link
-          to="/signup"
-          className="flex justify-center items-center bg-moldGreen w-2/3 max-w-80 py-4 text-lg rounded-lg tracking-wider  hover:bg-emerald"
+          to={token ? "/products" : "/signup"}
+          className="group flex  justify-center items-center bg-moldGreen w-2/3 max-w-80 py-4 text-lg rounded-lg tracking-wider  hover:bg-emerald"
         >
-          <span>Get Started</span>
-          <ArrowUpRight size={24} color="#ffffff" />
+          <span>{token ? "View products" : "Get Started"}</span>
+          <ArrowUpRight
+            size={24}
+            color="#ffffff"
+            className="transition-all duration-300 group-hover:rotate-45"
+          />
         </Link>
       </div>
     </section>
