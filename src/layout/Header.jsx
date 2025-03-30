@@ -1,14 +1,28 @@
-import { AlignRight, X } from "lucide-react";
+import { AlignRight, X, CircleUserRound } from "lucide-react";
+import { HiShoppingCart } from "react-icons/hi";
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import logo from "/icons/logo.png";
 import Button from "../components/common/Button";
+import useAuth from "../hooks/useAuth";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { cart } = useSelector((state) => state.shoppingCart);
+  const { token } = useAuth();
+  const { pathname } = useLocation();
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const itemsCount = cart?.reduce((sum, item) => {
+    if (Object.keys(item).length > 0) {
+      sum = sum + item.quantity;
+    }
+    return sum;
+  }, 0);
 
   return (
     <header className="bg-white py-4 px-2 lg:px-4 flex justify-between items-center shadow-lg relative z-30">
@@ -68,20 +82,41 @@ function Header() {
         </NavLink>
       </nav>
 
-      <div className="hidden md:flex gap-3 items-center">
-        <Link
-          to="/login"
-          className="bg-avocado hover:bg-white border-2 border-transparent hover:border-avocado text-white hover:text-avocado py-2 px-8 rounded-xl font-semibold text-lg tracking-wide"
-        >
-          Login
-        </Link>
-        <Link
-          to="/signup"
-          className="bg-white hover:bg-avocado border-2 border-avocado hover:border-transparent text-avocado hover:text-white py-2 px-5 rounded-xl font-semibold text-lg tracking-wide"
-        >
-          Sign up
-        </Link>
-      </div>
+      {/* Authentication buttons and Cart */}
+      {token ? (
+        <div className="flex gap-6 ml-auto md:ml-0 items-baseline relative mr-4">
+          <Link to="/cart" className="mr-4 md:mr-0">
+            <HiShoppingCart
+              size={35}
+              color={pathname === "/cart" ? "#E9591B" : "#2d3134"}
+            />
+            <span className="bg-emerald text-white text-sm font-bold p-1 px-2 rounded-full text-center absolute -top-2 left-4">
+              {itemsCount ? itemsCount : 0}
+            </span>
+          </Link>
+          <NavLink to="/profile" className="hidden md:block">
+            <CircleUserRound
+              size={38}
+              color={pathname === "/profile" ? "#E9591B" : "#2d3134"}
+            />
+          </NavLink>
+        </div>
+      ) : (
+        <div className="hidden md:flex gap-3 items-center">
+          <Link
+            to="/login"
+            className="bg-avocado hover:bg-white border-2 border-transparent hover:border-avocado text-white hover:text-avocado py-2 px-8 rounded-xl font-semibold text-lg tracking-wide"
+          >
+            Login
+          </Link>
+          <Link
+            to="/signup"
+            className="bg-white hover:bg-avocado border-2 border-avocado hover:border-transparent text-avocado hover:text-white py-2 px-5 rounded-xl font-semibold text-lg tracking-wide"
+          >
+            Sign up
+          </Link>
+        </div>
+      )}
 
       {/* Hamburger menu for mobile */}
       <Button action={toggleMenu} moreStyles="block md:hidden">
@@ -151,20 +186,36 @@ function Header() {
             </NavLink>
           </nav>
 
-          <div className="flex flex-col gap-2">
-            <Link
-              to="/login"
-              className="bg-avocado hover:bg-white border-2 border-transparent hover:border-avocado text-white hover:text-avocado py-2 px-10  rounded-xl font-semibold"
-            >
-              Login
+          {token ? (
+            <Link to="/profile" className="text-night flex items-center gap-2">
+              <CircleUserRound
+                size={30}
+                color={pathname === "/profile" ? "#E9591B" : "#2d3134"}
+              />
+              <span
+                className={
+                  pathname === "/profile" ? "text-tangerine" : "text-night"
+                }
+              >
+                Profile
+              </span>
             </Link>
-            <Link
-              to="/signup"
-              className="bg-white hover:bg-avocado border-2 border-avocado hover:border-transparent text-avocado hover:text-white py-2 px-10 rounded-xl font-semibold"
-            >
-              Sign up
-            </Link>
-          </div>
+          ) : (
+            <div className="flex flex-col gap-2">
+              <Link
+                to="/login"
+                className="bg-avocado hover:bg-white border-2 border-transparent hover:border-avocado text-white hover:text-avocado py-2 px-10  rounded-xl font-semibold"
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="bg-white hover:bg-avocado border-2 border-avocado hover:border-transparent text-avocado hover:text-white py-2 px-10 rounded-xl font-semibold"
+              >
+                Sign up
+              </Link>
+            </div>
+          )}
         </div>
       </aside>
     </header>
