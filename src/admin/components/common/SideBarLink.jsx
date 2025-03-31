@@ -3,8 +3,8 @@ import { PropTypes } from "prop-types";
 
 function SideBarLink({ icon: Icon, to, hideLinkName }) {
   const styles =
-    "flex gap-3 items-center py-3 px-2 bg-[#D9D9D9] bg-opacity-0 font-quciksand text-xl text-white";
-  const activeStyles = `bg-opacity-50 font-semibold rounded-md ${styles}`;
+    "flex gap-3 items-center py-3 px-2 bg-[#D9D9D9] bg-opacity-0 font-quciksand text-xl text-white rounded-md hover:bg-opacity-50";
+  const activeStyles = `bg-opacity-50 font-semibold  ${styles}`;
 
   return (
     <NavLink
@@ -12,7 +12,11 @@ function SideBarLink({ icon: Icon, to, hideLinkName }) {
       end
       className={({ isActive }) => (isActive ? activeStyles : styles)}
     >
-      <Icon color="#ffffff" size={28} className={`${hideLinkName ? "mx-auto" : "m-0"}`} />
+      <Icon
+        color="#ffffff"
+        size={28}
+        className={`${hideLinkName ? "mx-auto" : "m-0"}`}
+      />
       <span
         className={`${
           hideLinkName ? "hidden" : "inline"
