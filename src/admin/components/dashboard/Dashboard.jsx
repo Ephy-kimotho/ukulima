@@ -1,8 +1,10 @@
+import CardListing from "./CardListing";
+
 function Dashboard() {
   return (
-    <div>
-      <h2>This is the admin dashboard page</h2>
-    </div>
+    <section>
+      <CardListing />
+    </section>
   );
 }
 
