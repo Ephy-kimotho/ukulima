@@ -7,9 +7,15 @@ import HomePage from "../components/home/HomePage";
 import Products from "../components/products/Products";
 import ProductDetail from "../components/products/ProductDetail";
 import ProfilePage from "../components/profile/ProfilePage";
+import ProtectedRoute from "../components/common/ProtectedRoute";
 import SignUp from "../components/SignUp";
 import Login from "../components/Login";
-import ProtectedRoute from "../components/common/ProtectedRoute";
+import AdminLayout from "../admin/layout/AdminLayout";
+import Dashboard from "../admin/components/dashboard/Dashboard";
+import Orders from "../admin/components/orders/Orders";
+import AdminProducts from "../admin/components/products/AdminProducts";
+import Categories from "../admin/components/catgories/Categories";
+import Reports from "../admin/components/reports/Reports";
 
 const routes = createBrowserRouter(
   [
@@ -56,12 +62,38 @@ const routes = createBrowserRouter(
       ],
     },
     {
-      path: "signup",
+      path: "/signup",
       element: <SignUp />,
     },
     {
-      path: "login",
+      path: "/login",
       element: <Login />,
+    },
+    {
+      path: "/admin",
+      element: <AdminLayout />,
+      children: [
+        {
+          index: true,
+          element: <Dashboard />,
+        },
+        {
+          path: "orders",
+          element: <Orders />,
+        },
+        {
+          path: "products",
+          element: <AdminProducts />,
+        },
+        {
+          path: "categories",
+          element: <Categories />,
+        },
+        {
+          path: "reports",
+          element: <Reports />,
+        },
+      ],
     },
   ],
   {
