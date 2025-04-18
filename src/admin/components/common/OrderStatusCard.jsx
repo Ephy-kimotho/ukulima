@@ -8,7 +8,9 @@ const styles = {
 
 function OrderStatusCard({ type }) {
   return (
-    <div className={`py-2 px-4 rounded-md font-bold text-lg ${styles[type]}`}>
+    <div
+      className={`p-2 rounded-md text-center font-bold text-sm md:text-base lg:text-lg ${styles[type]}`}
+    >
       <p className="capitalize">{type}</p>
     </div>
   );

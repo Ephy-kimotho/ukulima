@@ -24,6 +24,7 @@ function SignUp() {
   const handleSubmit = async (values, action) => {
     /* Mock sign up using json-server*/
     const { data } = await axios.post(`${BASE_URL}/users`, values);
+    console.log(data);
     setUser(data);
     action.resetForm();
     toast.success("Account created successfully.");
@@ -38,8 +39,8 @@ function SignUp() {
       </Link>
       <Formik
         initialValues={{
-          firstName: "",
-          lastName: "",
+          firstname: "",
+          lastname: "",
           email: "",
           phone: "",
           password: "",
@@ -58,7 +59,7 @@ function SignUp() {
           <div className="grid sm:grid-cols-2 sm:gap-4">
             <Input
               type="text"
-              name="firstName"
+              name="firstname"
               placeholder="First Name"
               icon={User}
               moreStyles="bg-moldGreen bg-opacity-20  border-2 border-moldGreen border-opacity-30"
@@ -66,7 +67,7 @@ function SignUp() {
 
             <Input
               type="text"
-              name="lastName"
+              name="lastname"
               placeholder="Last Name"
               icon={User}
               moreStyles="bg-moldGreen bg-opacity-20  border-2 border-moldGreen border-opacity-30"

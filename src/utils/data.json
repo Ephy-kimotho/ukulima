@@ -78,5 +78,42 @@
       "phone": "0718471224",
       "password": "Amaterasu_21"
     }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "user": "Ian munene",
+      "date": "29 Mar, 2025",
+      "status": "pending",
+      "total": "Ksh 400"
+    },
+    {
+      "id": 2,
+      "user": "Mary wambui",
+      "date": "19 Jan, 2025",
+      "status": "shipped",
+      "total": "Ksh 400"
+    },
+    {
+      "id": 3,
+      "user": "Rachael wangui",
+      "date": "31 Mar, 2025",
+      "status": "pending",
+      "total": "Ksh 400"
+    },
+    {
+      "id": 4,
+      "user": "Brian kamau",
+      "date": "23 Feb, 2025",
+      "status": "canceled",
+      "total": "Ksh 400"
+    },
+    {
+      "id": 5,
+      "user": "Irene kamau",
+      "date": "12 Mar, 2025",
+      "status": "shipped",
+      "total": "Ksh 400"
+    }
   ]
 }

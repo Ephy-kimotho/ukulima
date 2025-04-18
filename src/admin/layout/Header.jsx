@@ -45,7 +45,7 @@ function Header() {
   const activeStyles = `bg-opacity-20 font-semibold rounded-md ${styles}`;
 
   return (
-    <header className="bg-white shadow py-3 px-2 md:px-5 flex items-center justify-between relative">
+    <header className="bg-white shadow py-3 px-2 md:px-5 flex items-center justify-between">
       <div className="flex items-center gap-4">
         {/* Mobile Menu controller */}
         <button className="block md:hidden" onClick={toggleMenu}>
@@ -94,8 +94,8 @@ function Header() {
 
       {/* Mobile Navigation bar  */}
       <aside
-        className={` block md:hidden min-h-screen  absolute w-full  top-0 left-0 transition-transform duration-200 px-8  ${
-          isMenuOpen ? "translate-x-0 " : "-translate-x-full"
+        className={`fixed md:hidden inset-0 z-50 transition-transform duration-200 px-8 ${
+          isMenuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
         style={{
           background: "rgba(210,210,180, 0.5)",
