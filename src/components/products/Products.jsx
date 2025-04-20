@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getProducts } from "../../redux/products/productActions";
 import useAxios from "../../hooks/useAxios";
 import ProductListing from "./ProductListing";
-import ProductCardSkeletonWrapper from "../../skeletons/ProductCardSkeleton";
+import ProductCardSkeletonWrapper from "../../skeletons";
 
 function Products() {
   const [searchParams, setSearchParams] = useSearchParams();

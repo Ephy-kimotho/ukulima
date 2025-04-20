@@ -16,6 +16,7 @@ import Orders from "../admin/components/orders/Orders";
 import AdminProducts from "../admin/components/products/AdminProducts";
 import Categories from "../admin/components/catgories/Categories";
 import Reports from "../admin/components/reports/Reports";
+import OrderDetails from "../admin/components/orders/OrderDetails";
 
 const routes = createBrowserRouter(
   [
@@ -80,6 +81,10 @@ const routes = createBrowserRouter(
         {
           path: "orders",
           element: <Orders />,
+        },
+        {
+          path: "orders/:orderId",
+          element: <OrderDetails />,
         },
         {
           path: "products",

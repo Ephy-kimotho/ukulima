@@ -18,7 +18,7 @@ function AdminLayout() {
 
       <div className="flex flex-col flex-grow transition-all duration-300">
         <Header />
-        <div className="p-4  bg-[#f0eeee] h-full">
+        <div className="bg-[#f0eeee] h-full">
           <Outlet />
         </div>
       </div>

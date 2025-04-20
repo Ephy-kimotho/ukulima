@@ -15,12 +15,12 @@ const links = [
     icon: FaShoppingBag,
   },
   {
-    to: "products",
-    icon: Box,
-  },
-  {
     to: "categories",
     icon: MdOutlineCategory,
+  },
+  {
+    to: "products",
+    icon: Box,
   },
   {
     to: "reports",

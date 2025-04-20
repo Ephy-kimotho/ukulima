@@ -16,12 +16,12 @@ const links = [
     icon: FaShoppingBag,
   },
   {
-    to: "products",
-    icon: Box,
-  },
-  {
     to: "categories",
     icon: MdOutlineCategory,
+  },
+  {
+    to: "products",
+    icon: Box,
   },
   {
     to: "reports",
@@ -45,7 +45,7 @@ function Header() {
   const activeStyles = `bg-opacity-20 font-semibold rounded-md ${styles}`;
 
   return (
-    <header className="bg-white shadow py-3 px-2 md:px-5 flex items-center justify-between">
+    <header className="bg-white fixed md:relative z-40 left-0 right-0 shadow-md py-3 px-2 md:px-5 flex items-center justify-between">
       <div className="flex items-center gap-4">
         {/* Mobile Menu controller */}
         <button className="block md:hidden" onClick={toggleMenu}>
