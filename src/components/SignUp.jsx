@@ -31,9 +31,12 @@ function SignUp() {
     navigate("/login");
   };
 
+  const additionalInputStyles =
+    "bg-moldGreen bg-opacity-20  border-2 border-moldGreen border-opacity-30";
+
   return (
     <section className="">
-      <Toaster position="top-center"/>
+      <Toaster position="top-center" />
       <Link to="/" className="pt-3 mt-2 block">
         <img src={ukulimaLogo} alt="Ukulima logo" className="ml-5 w-10 h-10" />
       </Link>
@@ -62,7 +65,7 @@ function SignUp() {
               name="firstname"
               placeholder="First Name"
               icon={User}
-              moreStyles="bg-moldGreen bg-opacity-20  border-2 border-moldGreen border-opacity-30"
+              moreStyles={additionalInputStyles}
             />
 
             <Input
@@ -70,7 +73,7 @@ function SignUp() {
               name="lastname"
               placeholder="Last Name"
               icon={User}
-              moreStyles="bg-moldGreen bg-opacity-20  border-2 border-moldGreen border-opacity-30"
+              moreStyles={additionalInputStyles}
             />
           </div>
 
@@ -79,7 +82,7 @@ function SignUp() {
             name="email"
             placeholder="Email"
             icon={Mail}
-            moreStyles="bg-moldGreen bg-opacity-20  border-2 border-moldGreen border-opacity-30"
+            moreStyles={additionalInputStyles}
           />
 
           <Input
@@ -87,7 +90,7 @@ function SignUp() {
             name="phone"
             placeholder="Phone Number"
             icon={Phone}
-            moreStyles="bg-moldGreen bg-opacity-20  border-2 border-moldGreen border-opacity-30"
+            moreStyles={additionalInputStyles}
           />
 
           <Input
@@ -96,7 +99,7 @@ function SignUp() {
             placeholder="Password"
             icon={showPassword ? Eye : EyeOff}
             togglePassword={togglePassword}
-            moreStyles="bg-moldGreen bg-opacity-20  border-2 border-moldGreen border-opacity-30"
+            moreStyles={additionalInputStyles}
           />
 
           <div className="text-center my-6">

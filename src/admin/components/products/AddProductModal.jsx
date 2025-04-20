@@ -6,7 +6,7 @@ import useAxios from "../../../hooks/useAxios";
 import Input from "../common/Input";
 import Select from "../common/Select";
 import Textarea from "../common/Textarea";
-//import Image from "../common/Image";
+import Image from "../common/Image";
 import Button from "../common/Button";
 
 function AddProductModal({ showForm, closeModal, heading, productValues }) {
@@ -18,7 +18,7 @@ function AddProductModal({ showForm, closeModal, heading, productValues }) {
     stock: null,
     category: "",
     description: "",
-    /*  productimage: null, */
+     productimage: null,
   };
 
   // TODO: write a function to submit form values
@@ -75,7 +75,7 @@ function AddProductModal({ showForm, closeModal, heading, productValues }) {
             placeholder="write something about the product..."
           />
 
-          {/*  <Image name="productimage" /> */}
+           <Image name="productimage" />
 
           {/* Form action buttons */}
           <div className="flex gap-2 flex-col md:flex-row justify-around pt-10">

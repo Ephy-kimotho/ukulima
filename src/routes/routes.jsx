@@ -17,6 +17,7 @@ import AdminProducts from "../admin/components/products/AdminProducts";
 import Categories from "../admin/components/catgories/Categories";
 import Reports from "../admin/components/reports/Reports";
 import OrderDetails from "../admin/components/orders/OrderDetails";
+import AddNewAdmin from "../admin/components/AddNewAdmin";
 
 const routes = createBrowserRouter(
   [
@@ -77,6 +78,10 @@ const routes = createBrowserRouter(
         {
           index: true,
           element: <Dashboard />,
+        },
+        {
+          path: "new",
+          element: <AddNewAdmin/>
         },
         {
           path: "orders",

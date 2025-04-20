@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ChevronDown, ChevronUp, X, Box, ScrollText } from "lucide-react";
 import { FiMenu } from "react-icons/fi";
 import { Link, NavLink } from "react-router-dom";
@@ -32,12 +33,21 @@ const links = [
 function Header() {
   const [showDropDownMenu, setShowDropDownMenu] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
+  // Function to toggle the drop down menu visibility
   const toggleDropDownMenuVisibility = () =>
     setShowDropDownMenu(!showDropDownMenu);
 
+  // Function to toggle the side menu visibility
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  //TODO: Write function to log out admin
+  const logout = async () => {
+    await new Promise((resolve) => setTimeout(resolve(), 1500));
+    navigate("/login");
   };
 
   const styles =
@@ -82,12 +92,15 @@ function Header() {
         }`}
       >
         <Link
-          to="#"
+          to="new"
           className="font-quciksand block py-2 pl-3 rounded-md font-semibold hover:bg-[#dedede] text-lg"
         >
           Add new admin
         </Link>
-        <button className="font-quciksand w-full p-2 rounded-md bg-avocado hover:bg-emerald text-white font-semibold text-lg active:scale-95">
+        <button
+          onClick={logout}
+          className="font-quciksand w-full p-2 rounded-md bg-avocado hover:bg-emerald text-white font-semibold text-lg active:scale-95"
+        >
           Sign out
         </button>
       </div>
