@@ -1,7 +1,7 @@
 import CategoryCard from "../common/CategoryCard";
 import seeds from "/images/seeds.png";
 import farmTools from "/images/farmTools.png";
-import pesticide from "/images/pesticides.png";
+import pesticide from "/images/pesticides.jpg";
 
 const categories = [
   {

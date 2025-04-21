@@ -64,7 +64,7 @@ function OrderPage() {
         </div>
       </div>
       <div className="bg-blue-20 pt-4 pb-16 text-center">
-        <Link to="/products" className="text-2xl text-emerald inline-block hover:scale-110 active:text-red-600">Continue Shopping</Link>
+        <Link to="/products" className="text-2xl text-emerald inline-block hover:font-semibold active:text-red-600">Continue Shopping</Link>
       </div>
     </div>
   )
