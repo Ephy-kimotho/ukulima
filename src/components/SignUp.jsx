@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { User, Phone, Mail, Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router-dom";
 import { signUpSchema } from "../schemas";
-import { BASE_URL } from "../constants";
+import { DEV_URL } from "../constants";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
 import Input from "./common/Input";
@@ -22,10 +22,10 @@ function SignUp() {
 
   //Function to handle Form Submission
   const handleSubmit = async (values, action) => {
-    /* Mock sign up using json-server*/
-    const { data } = await axios.post(`${BASE_URL}/users`, values);
-    console.log(data);
-    setUser(data);
+    const {
+      data: { User },
+    } = await axios.post(`${DEV_URL}/register`, values);
+    setUser(User);
     action.resetForm();
     toast.success("Account created successfully.");
     navigate("/login");

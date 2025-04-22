@@ -3,7 +3,7 @@ import { Formik, Form } from "formik";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Mail, Eye, EyeOff } from "lucide-react";
 import { loginSchema } from "../schemas";
-import { BASE_URL } from "../constants";
+import { DEV_URL } from "../constants";
 import toast, { Toaster } from "react-hot-toast";
 import AuthButton from "./common/AuthButton";
 import Input from "./common/Input";
@@ -31,6 +31,7 @@ function Login() {
   const message = state?.message || null;
   const path = state?.path || "/";
 
+  // If a message exists and I have not shown toast then  show the toast
   useEffect(() => {
     if (message && !hasShownToast.current) {
       toast.custom(<WarningToast message={message} />);
@@ -43,19 +44,25 @@ function Login() {
 
   //Function to handle login form submission
   const handleSubmit = async (values, action) => {
-    const { data: foundUser } = await axios.get(
-      `${BASE_URL}/users/${storedUser.id}`
-    );
-    if (
-      values.email === foundUser.email &&
-      values.password === foundUser.password
-    ) {
+    try {
+      const { data } = await axios.post(`${DEV_URL}/login`, values);
+
+      /* when login is successfull update accessToken */
       action.resetForm();
-      setToken(true);
+      setToken(data.access_token);
+
+      /* Show toast message and navigate to necessary path */
       toast.success("Login successful.");
       navigate(path);
-    } else {
-      toast.custom(<WarningToast message="Invalid credentials!" />);
+    } catch (error) {
+
+      /* 
+       When an error occurs who a friendly
+       error message to user inorder for him/her to take
+       the right action
+     */
+      const errorMessage = error.response.data.msg;
+      toast.custom(<WarningToast message={errorMessage} />);
     }
   };
 
@@ -85,7 +92,7 @@ function Login() {
           <Form className="w-11/12 max-w-2xl mx-auto min-h-[90vh]  relative">
             <div className="text-center mb-5">
               <h3 className="text-emerald font-bold font-nunito  capitalize text-3xl">
-                Welcome {storedUser ? `back ${storedUser.firstName}` : "back"}
+                Welcome {storedUser ? `back ${storedUser.firstname}` : "back"}
               </h3>
               <p className="text-grey font-nunito text-base">
                 Log in to your account
