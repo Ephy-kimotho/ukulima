@@ -9,7 +9,7 @@ import useAuth from "../hooks/useAuth";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { cart } = useSelector((state) => state.shoppingCart);
+  const { items } = useSelector((state) => state.shoppingCart);
   const { token } = useAuth();
   const { pathname } = useLocation();
 
@@ -17,6 +17,10 @@ function Header() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  //Get the cart from the items object
+  const cart = Array.isArray(items?.cart) ? items.cart : [];
+
+  // Get the total number of items in the cart
   const itemsCount = cart?.reduce((sum, item) => {
     if (Object.keys(item).length > 0) {
       sum = sum + item.quantity;

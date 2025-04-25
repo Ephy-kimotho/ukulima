@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
+import { Toaster } from "react-hot-toast";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 
@@ -16,9 +17,10 @@ function AdminLayout() {
         className={hideLinkName ? "w-32" : "w-56"}
       />
 
-      <div className="flex flex-col flex-grow transition-all duration-300">
+      <div className="flex flex-col flex-grow transition-all duration-300 relative">
         <Header />
         <div className="bg-[#f0eeee] h-full">
+          <Toaster position="top-center" />
           <Outlet />
         </div>
       </div>

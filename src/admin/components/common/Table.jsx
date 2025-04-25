@@ -31,21 +31,23 @@ function Table({ orders }) {
       <tbody>
         {orders?.map((order) => (
           <tr
-            key={order.id}
+            key={order.orderID}
             className="border-b last:border-none even:bg-gray-200 border-black"
           >
             <td className="py-3 px-4 lg:px-6 font-bold text-black text-opacity-85">
-              {order.id}
+              {order.orderID}
             </td>
             <td className="py-3 lg:px-6 text-sm lg:text-base hidden md:table-cell">
               {order.user}
             </td>
-            <td className="py-3 text-sm lg:text-base px-2 lg:px-6">{order.date}</td>
+            <td className="py-3 text-sm lg:text-base px-2 lg:px-6">
+              {order.order_date}
+            </td>
             <td className="py-3 lg:px-6">
-              <OrderStatusCard type={order.status} />
+              <OrderStatusCard type={order.order_status.toLowerCase()} />
             </td>
             <td className="py-3 text-center text-sm lg:text-base  lg:px-6 hidden md:table-cell">
-              {order.total}
+              {order.total_amount}
             </td>
             <td className="py-3  flex justify-center items-center">
               <MdOutlineMoreHoriz size={30} color="0D141C" />

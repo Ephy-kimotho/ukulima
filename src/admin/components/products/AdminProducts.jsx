@@ -1,26 +1,44 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { BASE_URL } from "../../../constants";
+import { useSelector, useDispatch } from "react-redux";
+import { DEV_URL } from "../../../constants";
+import { getProducts } from "../../../redux/products/productActions";
 import ProductCard from "../common/ProductCart";
 import AddProductModal from "./AddProductModal";
 import Button from "../common/Button";
 import useAxios from "../../../hooks/useAxios";
 import ProductCardSkeletonWrapper from "../../../skeletons";
 
-
 function AdminProducts() {
-  const { data: categories } = useAxios(`${BASE_URL}/categories`);
-  const { data: products, isLoading } = useAxios(`${BASE_URL}/products`);
+  // Fetch categories from the API
+  const { data } = useAxios(`${DEV_URL}/categories`);
 
+  // Get the products from the Redux store
+  const storedProducts = useSelector((state) => state.products);
+
+  // Initialize the Redux dispatch function
+  const dispatch = useDispatch();
+
+  // State variables for managing product values, modal visibility, and editing status
   const [productValues, setProductValues] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // Get the categories and products from the response data
+  const categories = data?.categories;
+  const products = storedProducts?.items;
+
   // Get the search parameters if they exists
   const category = searchParams.get("category") || "";
+  const currentPage = parseInt(searchParams.get("page")) || 1;
 
-  // Function to handle category change and update URL
+  // Load products when the component mounts or when the current page changes
+  useEffect(() => {
+    dispatch(getProducts(currentPage));
+  }, [dispatch, currentPage]);
+
+  // Set category in the URL search params when it changes
   const handleCategoryChange = (category) => {
     const newParams = new URLSearchParams(searchParams.toString());
     if (category) {
@@ -37,7 +55,7 @@ function AdminProducts() {
 
     if (category) {
       filteredProducts = filteredProducts?.filter(
-        (p) => p.category === category
+        (p) => p.categoryName === category
       );
     }
 
@@ -46,6 +64,24 @@ function AdminProducts() {
 
   // Function to toggle modal visibility
   const toggleVisibility = () => setShowModal(!showModal);
+
+  // Function to go to the nextPage
+  const goToNextPage = () => {
+    if (storedProducts.has_next) {
+      const newParams = new URLSearchParams(searchParams.toString());
+      newParams.set("page", currentPage + 1);
+      setSearchParams(newParams);
+    }
+  };
+
+  // Function to go to the previous page
+  const goToPreviousPage = () => {
+    if (storedProducts.has_prev) {
+      const newParams = new URLSearchParams(searchParams.toString());
+      newParams.set("page", currentPage - 1);
+      setSearchParams(newParams);
+    }
+  };
 
   // Function to delete an item using its id
   const deleteItem = (id) => {
@@ -61,7 +97,7 @@ function AdminProducts() {
   };
 
   return (
-    <section className="bg-[#fafafa] min-h-screen rounded-md shadow-lg px-4 pt-28 md:pt-2 md:pb-10 relative">
+    <section className="bg-[#fafafa] min-h-screen rounded-md shadow-lg px-4 pt-28 md:pt-2 md:pb-10">
       {/* Add Product Modal */}
       {showModal &&
         (isEditing ? (
@@ -73,6 +109,7 @@ function AdminProducts() {
               setProductValues(null);
             }}
             heading="Edit product"
+            categories={categories}
             productValues={productValues}
           />
         ) : (
@@ -80,6 +117,7 @@ function AdminProducts() {
             showForm={showModal}
             closeModal={toggleVisibility}
             heading="Add new product"
+            categories={categories}
           />
         ))}
 
@@ -101,8 +139,12 @@ function AdminProducts() {
             <option value="" className="text-white">
               -- choose category --
             </option>
-            {categories?.map((category, idx) => (
-              <option key={idx} value={category.name} className="text-white">
+            {categories?.map((category) => (
+              <option
+                key={category.id}
+                value={category.name}
+                className="text-white"
+              >
                 {category.name}
               </option>
             ))}
@@ -119,20 +161,40 @@ function AdminProducts() {
       </div>
 
       {/* Product Listing */}
-      {isLoading ? (
+      {storedProducts.isLoading ? (
         <ProductCardSkeletonWrapper />
       ) : (
         <div className="w-11/12 mx-auto grid gap-5 md:grid-cols-2  xl:grid-cols-3">
           {filteredProducts?.map((product) => (
             <ProductCard
-              key={product.id}
-              onDelete={() => deleteItem(product.id)}
-              onEdit={() => editItem(product)}
+              key={product.productsID}
               product={product}
+              deleteItem={deleteItem}
+              editItem={editItem}
             />
           ))}
         </div>
       )}
+
+      {/* Pagination */}
+      <div className="w-11/12 my-8  mx-auto py-4 flex flex-col gap-5 md:gap-0 md:flex-row md:justify-between">
+        <Button
+          action={goToPreviousPage}
+          disabled={!storedProducts?.has_prev}
+          category="add"
+          className="w-36 active:scale-95"
+        >
+          Previous
+        </Button>
+        <Button
+          action={goToNextPage}
+          disabled={!storedProducts?.has_next}
+          category="add"
+          className="w-36 active:scale-95"
+        >
+          Next
+        </Button>
+      </div>
     </section>
   );
 }

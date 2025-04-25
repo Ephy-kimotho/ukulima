@@ -1,49 +1,42 @@
 import {
-  ADD_TO_CART,
-  REMOVE_FROM_CART,
-  CHANGE_QUANTITY,
+  CART_REQUESTING,
+  CART_ON_SUCCESS,
+  CART_ON_ERROR,
 } from "../../constants";
-import { saveToLocalStorage } from "../../utils";
 
-/* Get cart items from local storage if they exist */
-const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+// Get stored cart items from local storage
 
-/* Define the initial state for the cart */
+const storedCart = JSON.parse(localStorage.getItem("cart")) || null;
+
+/* define cart initial state */
 const initialState = {
-  cart: storedCart,
+  items: storedCart,
+  isLoading: false,
+  error: null,
 };
 
-export function cartReducer(state = initialState, action) {
-  let newCart;
+/* Cart reducer function to handle cart actions */
+export const cartReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_TO_CART:
-      newCart = [...state.cart, action.product];
-      saveToLocalStorage("cart", newCart);
-
+    case CART_REQUESTING:
       return {
         ...state,
-        cart: newCart,
+        isLoading: true,
       };
-
-    case REMOVE_FROM_CART:
-      newCart = state.cart.filter((item) => item.id !== action.product.id);
-      saveToLocalStorage("cart", newCart);
-
+    case CART_ON_SUCCESS:
+      localStorage.setItem("cart", JSON.stringify(action.payload));
       return {
         ...state,
-        cart: newCart,
+        isLoading: false,
+        items: action.payload,
       };
-    case CHANGE_QUANTITY:
-      newCart = state.cart.map((item) =>
-        item.id === action.product.id ? action.product : item
-      );
-      saveToLocalStorage("cart", newCart);
-
+    case CART_ON_ERROR:
       return {
         ...state,
-        cart: newCart,
+        isLoading: false,
+        error: action.payload,
       };
     default:
       return state;
   }
-}
+};

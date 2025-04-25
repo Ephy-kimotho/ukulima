@@ -9,7 +9,7 @@ function ProfilePage() {
   const navigate = useNavigate();
 
   const logout = () => {
-    setToken(false);
+    setToken(null);
     toast.success("Log out successful.");
 
     setTimeout(() => {
@@ -22,8 +22,8 @@ function ProfilePage() {
       <div className="">
         <article className="pt-16 mb-8 flex flex-col items-center">
           <FaUserCircle color="#000" size={120} />
-          <p className="text-stone-900 text-4xl font-semibold">
-            Hello {user.firstName}
+          <p className="text-stone-900 mt-2 text-4xl font-bold">
+            Hello {user.firstname}
           </p>
         </article>
 
@@ -31,7 +31,7 @@ function ProfilePage() {
           <p className="text-black border-b-2 border-black">
             <span className="font-semibold">Full Name:</span>
             <span className="pl-2">
-              {user.firstName} {user.lastName}
+              {user.firstname} {user.lastname}
             </span>
           </p>
 

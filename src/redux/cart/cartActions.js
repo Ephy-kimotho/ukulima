@@ -1,27 +1,46 @@
 /* Define the action creators for cart management */
 import {
-  ADD_TO_CART,
-  REMOVE_FROM_CART,
-  CHANGE_QUANTITY,
+  CART_REQUESTING,
+  CART_ON_SUCCESS,
+  CART_ON_ERROR,
 } from "../../constants";
+import { DEV_URL } from "../../constants";
+import axios from "axios";
 
-export function addToCart(product) {
+/* Action creators for the cart functionality */
+export const fetchCart = () => {
   return {
-    type: ADD_TO_CART,
-    product,
+    type: CART_REQUESTING,
   };
-}
+};
 
-export function removeFromCart(product) {
+export const fetchCartSuccess = (cart) => {
   return {
-    type: REMOVE_FROM_CART,
-    product,
+    type: CART_ON_SUCCESS,
+    payload: cart,
   };
-}
+};
 
-export function changeQuantity(product) {
+export const fetchCartError = (error) => {
   return {
-    type: CHANGE_QUANTITY,
-    product,
+    type: CART_ON_ERROR,
+    payload: error,
   };
-}
+};
+
+/* function to get cart items and update the store  */
+export const getCartItems = (token) => {
+  return async (dispatch) => {
+    dispatch(fetchCart());
+    try {
+      const { data } = await axios.get(`${DEV_URL}/cart`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      dispatch(fetchCartSuccess(data));
+    } catch (error) {
+      dispatch(fetchCartError(error));
+    }
+  };
+};

@@ -14,7 +14,7 @@ function Input({ type, label, className, placeholder, ...props }) {
       <div
         className={`w-full border focus-within:border-blue-400 ${
           meta.error && meta.touched ? "border-red-400" : "border-night"
-        } rounded mb-1`}
+        } rounded`}
       >
         <input
           type={type}

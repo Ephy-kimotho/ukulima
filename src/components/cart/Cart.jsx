@@ -1,5 +1,7 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getCartItems } from "../../redux/cart/cartActions";
+import useAuth from "../../hooks/useAuth";
 import CartProduct from "./CartProduct";
 import OrderSummary from "./OrderSummary";
 import Checkout from "./Checkout";
@@ -7,23 +9,30 @@ import Button from "../common/Button";
 
 function Cart() {
   const [showCheckout, setShowCheckout] = useState(false);
-  const cart = useSelector((state) => state.shoppingCart.cart);
+  const { token } = useAuth();
+  const { items } = useSelector((state) => state.shoppingCart);
+  const dispatch = useDispatch();
+
+  // Fetch cart items when the component mounts
+  useEffect(() => {
+    if (token) {
+      dispatch(getCartItems(token));
+    }
+  }, [dispatch, token]);
 
   const toggleCheckout = () => {
     setShowCheckout(!showCheckout);
   };
 
+  // Check if items are available in shopping cart
+  const cart = items?.cart;
+
+  // Check if the cart is empty
   const isCartEmpty = cart?.length === 0;
 
-  const subtotal = cart?.reduce((sum, item) => {
-    if (Object.keys(item).length > 0) {
-      sum += item.price * item.quantity;
-    }
-    return sum;
-  }, 0);
-
-  const deliveryFee = isCartEmpty ? 0 : 200;
-  const grandTotal = subtotal + deliveryFee;
+  // Calculate delivery fee and grand total
+  const deliveryFee = isCartEmpty ? 0 : 150;
+  const grandTotal = Number(items?.total_amount) + deliveryFee;
 
   return (
     <section className="bg-[#f0f0f0] py-10  min-h-screen relative">
@@ -48,7 +57,7 @@ function Cart() {
       )}
 
       <OrderSummary
-        subtotal={subtotal}
+        subtotal={items?.total_amount}
         deliveryFee={deliveryFee}
         grandTotal={grandTotal}
       />

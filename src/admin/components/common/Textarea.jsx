@@ -4,7 +4,7 @@ import { useField } from "formik";
 function Textarea({ label, placeholder, ...props }) {
   const [field, meta] = useField(props);
   return (
-    <div className="mb-5">
+    <div className="">
         <label htmlFor={props.name} className="capitalize text-night font-semibold md:text-lg">
         {label}:
       </label>
@@ -17,7 +17,7 @@ function Textarea({ label, placeholder, ...props }) {
           placeholder={placeholder}
           {...field}
           {...props}
-          className="text-base outline-none w-full py-2 px-3 placeholder:text-[#1E2021]  rounded placeholder:text-opacity-70 placeholder:italic  min-h-32"
+          className="text-base outline-none w-full py-2 px-3 placeholder:text-[#1E2021]  rounded placeholder:text-opacity-70 placeholder:italic min-h-24"
         />
       </div>
       {meta.touched && meta.error && (

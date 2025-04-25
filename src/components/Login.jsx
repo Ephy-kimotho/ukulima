@@ -51,13 +51,19 @@ function Login() {
       action.resetForm();
       setToken(data.access_token);
 
+      if (data.is_staff) {
+        // navigate to admin dashboard
+        navigate("/admin");
+      } else {
+        navigate(path);
+      }
+      
       /* Show toast message and navigate to necessary path */
       toast.success("Login successful.");
-      navigate(path);
     } catch (error) {
-
+      console.error(error);
       /* 
-       When an error occurs who a friendly
+       When an error occurs show a friendly
        error message to user inorder for him/her to take
        the right action
      */

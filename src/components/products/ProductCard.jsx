@@ -1,38 +1,65 @@
-import Button from "../common/Button";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../../redux/cart/cartActions";
+import { useSelector, useDispatch } from "react-redux";
+import { getCartItems } from "../../redux/cart/cartActions";
+import { DEV_URL } from "../../constants";
+import axios from "axios";
+import Button from "../common/Button";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import WarningToast from "../common/WarningToast";
 
 function ProductCard(product) {
-  const { cart } = useSelector((state) => state.shoppingCart);
+  const { items } = useSelector((state) => state.shoppingCart);
   const { token } = useAuth();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // TODO: write add to cart function.
-  const addItemToCart = () => {
-    //Check if user is authenticated
+  // Get cart from the items object
+  const cart = Array.isArray(items?.cart) ? items.cart : [];
+
+  // Function to verify addition of a product to cart
+  const verifyAdd = async (product) => {
+    // check if there is a token
     if (token) {
       // check if product is already in cart
-      const productIsInCart = cart.some((item) => item.id === product.id);
-      // if it's show toast message
-      if (productIsInCart) {
+      const isProductInCart = cart.some(
+        (item) => item.productID === product.productsID
+      );
+
+      if (isProductInCart) {
+        // show message
         toast.custom(
-          <WarningToast message={`${product.name} is already in the cart.`} />
+          <WarningToast
+            message={`${product.productName} is already in the cart`}
+          />
         );
+      } else {
+        // add item to cart
+        try {
+          await axios.post(
+            `${DEV_URL}/cart_add`,
+            {
+              quantity: 1,
+              productID: product.productsID,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          // update cart store in redux
+          dispatch(getCartItems(token));
+          toast.success(`${product.productName} added to cart`);
+        } catch (error) {
+          console.error("Error adding item to cart", error);
+          toast.error("Error adding item to cart, try again");
+        }
       }
-      // if it's not the dispatch product
-      else {
-        dispatch(addToCart({ ...product, quantity: 1 }));
-        toast.success(`${product.name} added to cart`);
-      }
-    }
-    // if not redirect to login
-    else {
+    } else {
+      // navigate to login
       navigate("/login", {
         state: { message: "You must login first.", path: pathname },
       });
@@ -42,40 +69,41 @@ function ProductCard(product) {
   return (
     <article className="max-w-sm  bg-[#f0f0f2] rounded-xl  shadow-md text-night">
       <img
-        src={product.image}
-        alt={product.name}
+        src={product?.image_url}
+        alt={product?.productName}
         className="w-full h-2/3 object-cover aspect-square rounded-t-xl"
       />
       <div className="mt-5 w-11/12 mx-auto">
         <div className="flex justify-between">
           <div>
             <p className="text-2xl text-mint capitalize font-semibold">
-              {product.name}
+              {product?.productName}
             </p>
             <p
               className={`${
-                product.stock > 0 ? "text-mint" : "text-red-500"
+                product?.quantity > 0 ? "text-mint" : "text-red-500"
               } mb-4 capitalize font-medium`}
             >
-              {product.stock > 0
-                ? `In stock: ${product.stock}`
+              {product?.quantity > 0
+                ? `In stock: ${product.quantity}`
                 : "Out of stock"}
             </p>
           </div>
           <p className=" font-nunito text-lg text-emerald font-bold ">
-            Ksh. {product.price}
+            Ksh. {product?.price}
           </p>
         </div>
         <div className="flex gap-3 ">
           <Link
-            to={`/products/${product.id}`}
+            to={`/products/${product?.productsID}`}
+            state={{ params: product?.params }}
             className="bg-mint active:scale-95 text-white text-center inline-block py-2 px-4 rounded-md flex-1"
           >
             View details
           </Link>
           <Button
-            action={addItemToCart}
-            disabled={product.stock === 0}
+            action={() => verifyAdd(product)}
+            disabled={product.quantity === 0}
             moreStyles="bg-emerald text-white active:scale-95 px-4 rounded-md flex-1"
           >
             Add to cart

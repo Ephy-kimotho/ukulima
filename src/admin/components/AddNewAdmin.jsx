@@ -2,24 +2,36 @@ import { Formik, Form } from "formik";
 import { useState } from "react";
 import { User, Phone, Mail, Eye, EyeOff } from "lucide-react";
 import { addNewAdminSchema } from "../../schemas";
+import { DEV_URL } from "../../constants";
+import toast from "react-hot-toast";
+import useAuth from "../../hooks/useAuth";
 import Input from "../../components/common/Input";
 import AuthButton from "../../components/common/AuthButton";
+import axios from "axios";
 
 function AddNewAdmin() {
   const [showPassword, setShowPassword] = useState(false);
+  const { token } = useAuth();
 
   // Function to toggle password visibility
   const togglePassword = () => setShowPassword(!showPassword);
 
-  // TODO: Write a function to handle form submittion
-  const handleSubmit = async (values) => {
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 1500);
-    });
+  // Function to add a new admin
+  const handleSubmit = async (values, actions) => {
+    try {
+      const res = await axios.post(`${DEV_URL}/register/staff`, values, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      actions.resetForm();
 
-    console.log(values);
+      const message = res.data.msg;
+      toast.success(message);
+    } catch (error) {
+      console.error("Error adding new admin: ", error);
+      toast.error("Failed, please try again");
+    }
   };
 
   const additionalInputStyles =
@@ -27,15 +39,15 @@ function AddNewAdmin() {
 
   return (
     <section className="px-4 py-24 md:py-7">
-      <div className="bg-white rounded-lg shadow-md p-4">
+      <div className="bg-white min-h-screen rounded-lg shadow-md p-4">
         <h2 className="text-[#1E2025] font-bold font-nunito text-xl md:text-3xl lg:text-4xl capitalize text-center mb-4">
           Add new admin
         </h2>
 
         <Formik
           initialValues={{
-            admin_username: "",
-            admin_password: "",
+            ukulima_superuser_username: "",
+            ukulima_superuser_password: "",
             firstname: "",
             lastname: "",
             email: "",
@@ -55,7 +67,7 @@ function AddNewAdmin() {
               <div className="grid gap-4 md:grid-cols-2">
                 <Input
                   type="text"
-                  name="admin_username"
+                  name="ukulima_superuser_username"
                   placeholder="Username"
                   icon={User}
                   moreStyles={additionalInputStyles}
@@ -63,7 +75,7 @@ function AddNewAdmin() {
 
                 <Input
                   type={showPassword ? "text" : "password"}
-                  name="admin_password"
+                  name="ukulima_superuser_password"
                   placeholder="Password"
                   icon={showPassword ? Eye : EyeOff}
                   togglePassword={togglePassword}
@@ -120,6 +132,9 @@ function AddNewAdmin() {
                 moreStyles={additionalInputStyles}
               />
 
+            </section>
+
+            {/* Save admin button */}
               <div className="text-center my-6">
                 <AuthButton
                   moreStyles="w-2/3 max-w-80"
@@ -128,7 +143,6 @@ function AddNewAdmin() {
                   Save admin
                 </AuthButton>
               </div>
-            </section>
           </Form>
         </Formik>
       </div>

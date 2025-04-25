@@ -1,7 +1,7 @@
 import { FiMenu } from "react-icons/fi";
 import { FaShoppingBag } from "react-icons/fa";
 import { MdDashboard, MdOutlineCategory } from "react-icons/md";
-import { Box, ScrollText } from "lucide-react";
+import { Box } from "lucide-react";
 import { PropTypes } from "prop-types";
 import SideBarLink from "../components/common/SideBarLink";
 
@@ -21,10 +21,6 @@ const links = [
   {
     to: "products",
     icon: Box,
-  },
-  {
-    to: "reports",
-    icon: ScrollText,
   },
 ];
 

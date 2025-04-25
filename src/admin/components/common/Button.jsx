@@ -12,12 +12,14 @@ function Button({
   category,
   className = "",
   type = "button",
+  disabled = false,
 }) {
   return (
     <button
-      onClick={action}
+      onClick={disabled ? null : action}
       type={type}
-      className={`${className} ${styles[category]} text-white font-semibold px-6 py-2 rounded-md`}
+      disabled={disabled}
+      className={`${className} ${styles[category]} text-white font-semibold px-6 py-2 rounded-md disabled:bg-gray-400 disabled:cursor-not-allowed active:scale-95`}
     >
       {children}
     </button>

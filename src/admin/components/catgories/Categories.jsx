@@ -1,17 +1,30 @@
-import { useState } from "react";
-import useAxios from "../../../hooks/useAxios";
+import { useState, useEffect } from "react";
+import { CategoryCardSkeletonWrapper } from "../../../skeletons";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategories } from "../../../redux/categories/categoriesActions";
 import CategoryCard from "./CategoryCard";
 import Button from "../common/Button";
 import AddCategoryModal from "./AddCategoryModal";
-import { BASE_URL } from "../../../constants";
-import { CategoryCardSkeletonWrapper } from "../../../skeletons";
 
 function Categories() {
-  const { data: categories, isLoading } = useAxios(`${BASE_URL}/categories`);
+  // Fetch categories from the store
+  const storedCategories = useSelector((state) => state.categories);
 
+  // Initialize the dispatch function to dispatch actions to the Redux store
+  const dispatch = useDispatch();
+
+  // Fetch categories when the component mounts
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch]);
+
+  // State to manage the visibility of the form and editing state
   const [showForm, setShowForm] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+
+  // Get all the categories from the response
+  const categories = storedCategories?.items.categories;
 
   // Function to toggle form visibility
   const toggleVisibility = () => setShowForm(!showForm);
@@ -51,6 +64,7 @@ function Categories() {
           />
         ))}
 
+      {/* Add category button */}
       <div className="bg-white rounded-lg shadow-md min-h-screen ">
         <div className="flex  pt-6 pr-6  flex-col md:flex-row md:justify-end">
           <Button
@@ -63,17 +77,17 @@ function Categories() {
         </div>
 
         {/* Category Listing */}
-        {isLoading ? (
+        {storedCategories?.isLoading ? (
           <CategoryCardSkeletonWrapper />
         ) : (
-          <div className="mt-8 w-11/12 mx-auto grid justify-items-center md:grid-cols-2  xl:grid-cols-3">
-            {categories?.map((category) => (
+          <div className="mt-8 w-11/12 mx-auto grid gap-5 justify-items-center md:grid-cols-2  xl:grid-cols-3">
+            {categories?.map((cat) => (
               <CategoryCard
-                key={category.id}
-                image={category.image}
-                name={category.name}
-                onEdit={() => editCategory(category)}
-                onDelete={() => deleteCategory(category.id)}
+                key={cat.id}
+                image_url={cat.image_url}
+                name={cat.name}
+                onEdit={() => editCategory(cat)}
+                onDelete={() => deleteCategory(cat.id)}
               />
             ))}
           </div>

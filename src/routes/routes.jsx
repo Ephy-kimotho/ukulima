@@ -15,7 +15,7 @@ import Dashboard from "../admin/components/dashboard/Dashboard";
 import Orders from "../admin/components/orders/Orders";
 import AdminProducts from "../admin/components/products/AdminProducts";
 import Categories from "../admin/components/catgories/Categories";
-import Reports from "../admin/components/reports/Reports";
+//import Reports from "../admin/components/reports/Reports";
 import OrderDetails from "../admin/components/orders/OrderDetails";
 import AddNewAdmin from "../admin/components/AddNewAdmin";
 
@@ -73,7 +73,11 @@ const routes = createBrowserRouter(
     },
     {
       path: "/admin",
-      element: <AdminLayout />,
+      element: (
+        <ProtectedRoute>
+          <AdminLayout />
+        </ProtectedRoute>
+      ),
       children: [
         {
           index: true,
@@ -81,7 +85,7 @@ const routes = createBrowserRouter(
         },
         {
           path: "new",
-          element: <AddNewAdmin/>
+          element: <AddNewAdmin />,
         },
         {
           path: "orders",
@@ -98,10 +102,6 @@ const routes = createBrowserRouter(
         {
           path: "categories",
           element: <Categories />,
-        },
-        {
-          path: "reports",
-          element: <Reports />,
         },
       ],
     },

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronDown, ChevronUp, X, Box, ScrollText } from "lucide-react";
+import { ChevronDown, ChevronUp, X, Box } from "lucide-react";
 import { FiMenu } from "react-icons/fi";
 import { Link, NavLink } from "react-router-dom";
 import { FaShoppingBag } from "react-icons/fa";
@@ -23,10 +23,6 @@ const links = [
   {
     to: "products",
     icon: Box,
-  },
-  {
-    to: "reports",
-    icon: ScrollText,
   },
 ];
 
@@ -93,6 +89,7 @@ function Header() {
       >
         <Link
           to="new"
+          onClick={toggleDropDownMenuVisibility}
           className="font-quciksand block py-2 pl-3 rounded-md font-semibold hover:bg-[#dedede] text-lg"
         >
           Add new admin

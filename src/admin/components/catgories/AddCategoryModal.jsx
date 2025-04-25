@@ -1,19 +1,58 @@
 /* eslint-disable react/prop-types */
 import { Formik, Form } from "formik";
+import { DEV_URL } from "../../../constants";
 import { addCategoryModalSchema } from "../../../schemas";
+import { useDispatch } from "react-redux";
+import { getCategories } from "../../../redux/categories/categoriesActions";
+import toast from "react-hot-toast";
 import Input from "../common/Input";
 import Button from "../common/Button";
-//import Image from "../common/Image";
+import Image from "../common/Image";
+import useAuth from "../../../hooks/useAuth";
+import axios from "axios";
 
 function AddCategoryModal({ showForm, closeModal, heading, categoryValues }) {
+  // Get the token from the  auth provider
+  const { token } = useAuth();
+
+  // Initialize the dispatch function to dispatch actions to the Redux store
+  const dispatch = useDispatch();
+
+  // define initial values for the form data
   const initialValues = categoryValues || {
     name: "",
-    /*  productimage: null, */
+    file: undefined,
   };
 
   // TODO: write a function to submit form values
-  const handleSubmit = (values) => {
-    console.log(values);
+  const handleSubmit = async (values) => {
+    // create a new Form data object
+    const formData = new FormData();
+
+    // append the form values to the form data
+    formData.append("name", values.name);
+    formData.append("file", values.file);
+
+    // try to upload the category
+    try {
+      await axios.post(`${DEV_URL}/staff/categories`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      // dispatch the action to get categories
+      dispatch(getCategories());
+
+      // show success message and close the modal
+      toast.success("Category added successfully");
+      closeModal();
+    } catch (error) {
+      // show error message
+      toast.error("Failed to add category");
+      console.error("Error adding category:", error);
+    }
   };
 
   return (
@@ -41,7 +80,7 @@ function AddCategoryModal({ showForm, closeModal, heading, categoryValues }) {
             placeholder="i.e seeds"
             className="mb-4"
           />
-         {/*  <Image /> */}
+          <Image name="file" />
 
           {/* Form action buttons */}
           <div className="flex gap-2 flex-col md:flex-row justify-around pt-10">
