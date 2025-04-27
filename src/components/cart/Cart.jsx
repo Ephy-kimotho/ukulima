@@ -25,14 +25,15 @@ function Cart() {
   };
 
   // Check if items are available in shopping cart
-  const cart = items?.cart;
+  const cart = items?.cart || [];
 
   // Check if the cart is empty
   const isCartEmpty = cart?.length === 0;
 
   // Calculate delivery fee and grand total
-  const deliveryFee = isCartEmpty ? 0 : 150;
-  const grandTotal = Number(items?.total_amount) + deliveryFee;
+  const deliveryFee = items?.delivery_fee || 0;
+  const grandTotal = Number(items?.total_amount);
+  const subTotal = grandTotal - deliveryFee;
 
   return (
     <section className="bg-[#f0f0f0] py-10  min-h-screen relative">
@@ -57,7 +58,7 @@ function Cart() {
       )}
 
       <OrderSummary
-        subtotal={items?.total_amount}
+        subtotal={subTotal}
         deliveryFee={deliveryFee}
         grandTotal={grandTotal}
       />
@@ -68,7 +69,7 @@ function Cart() {
           disabled={isCartEmpty}
           moreStyles="bg-mint hover:bg-emerald active:scale-95 py-4 px-16 text-white text-xl font-bold rounded-xl"
         >
-          Confrim Order
+          Confirm Order
         </Button>
       </div>
     </section>

@@ -17,16 +17,8 @@ function Header() {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  //Get the cart from the items object
-  const cart = Array.isArray(items?.cart) ? items.cart : [];
-
   // Get the total number of items in the cart
-  const itemsCount = cart?.reduce((sum, item) => {
-    if (Object.keys(item).length > 0) {
-      sum = sum + item.quantity;
-    }
-    return sum;
-  }, 0);
+  const itemsCount = items?.total_items || 0;
 
   return (
     <header className="bg-white py-4 px-2 lg:px-4 flex justify-between items-center shadow-lg relative z-30">
@@ -40,7 +32,7 @@ function Header() {
       </Link>
 
       {/* Navigation links */}
-      <nav className="hidden md:flex gap-6 lg:gap-12 items-center">
+      <nav className="hidden md:flex gap-6 lg:gap-10 items-center">
         <NavLink
           to="/"
           className={({ isActive }) =>
@@ -84,6 +76,19 @@ function Header() {
         >
           Contact us
         </NavLink>
+
+        {token && (
+          <NavLink
+            to="my-orders"
+            className={({ isActive }) =>
+              isActive
+                ? "font-medium text-xl  text-tangerine tracking-wide capitalize"
+                : "font-medium text-xl  text-night hover:text-tangerine tracking-wide capitalize"
+            }
+          >
+            orders
+          </NavLink>
+        )}
       </nav>
 
       {/* Authentication buttons and Cart */}
@@ -187,6 +192,17 @@ function Header() {
               }
             >
               Contact us
+            </NavLink>
+
+            <NavLink
+              to="my-orders"
+              className={({ isActive }) =>
+                isActive
+                  ? "font-medium text-lg text-tangerine tracking-wide capitalize"
+                  : "font-medium text-lg text-night tracking-wide capitalize"
+              }
+            >
+              orders
             </NavLink>
           </nav>
 

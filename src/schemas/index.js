@@ -106,16 +106,19 @@ export const addProductModalSchema = (isEditing) =>
           ),
   });
 
-export const addCategoryModalSchema = Yup.object({
-  name: Yup.string()
-    .matches(/^[^\d]+$/, "Product name must not contain any numbers")
-    .min(4, "Product name should be atleast 4 characters")
-    .required("Required"),
-  file: Yup.mixed()
-    .required("Required")
-    .test(
-      "fileSize",
-      "Image is too large",
-      (value) => value && value.size <= 2 * 1024 * 1024
-    ),
-});
+export const addCategoryModalSchema = (isEditing) =>
+  Yup.object({
+    name: Yup.string()
+      .matches(/^[^\d]+$/, "Category name must not contain any numbers")
+      .min(3, "Category name should be atleast 3 characters")
+      .required("Required"),
+    file: isEditing
+      ? Yup.mixed().notRequired()
+      : Yup.mixed()
+          .required("Required")
+          .test(
+            "fileSize",
+            "Image is too large",
+            (value) => value && value.size <= 2 * 1024 * 1024
+          ),
+  });

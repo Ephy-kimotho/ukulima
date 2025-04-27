@@ -45,3 +45,23 @@ export function getOrders(token) {
     }
   };
 }
+
+export function getUserOrders(token) {
+  return async (dispatch) => {
+    dispatch(orderStart());
+    try {
+      const { data } = await axios.get(`${DEV_URL}/my_orders `, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      dispatch(orderSuccess(data));
+    } catch (error) {
+      dispatch(
+        orderError(
+          error?.response?.data?.msg || error.message || "Something went wrong"
+        )
+      );
+    }
+  };
+}

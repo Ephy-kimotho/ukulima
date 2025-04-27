@@ -15,9 +15,9 @@ import Dashboard from "../admin/components/dashboard/Dashboard";
 import Orders from "../admin/components/orders/Orders";
 import AdminProducts from "../admin/components/products/AdminProducts";
 import Categories from "../admin/components/catgories/Categories";
-//import Reports from "../admin/components/reports/Reports";
 import OrderDetails from "../admin/components/orders/OrderDetails";
 import AddNewAdmin from "../admin/components/AddNewAdmin";
+import MyOrders from "../components/orders/MyOrders";
 
 const routes = createBrowserRouter(
   [
@@ -48,6 +48,14 @@ const routes = createBrowserRouter(
         {
           path: "products",
           element: <Products />,
+        },
+        {
+          path: "my-orders",
+          element: (
+            <ProtectedRoute>
+              <MyOrders />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "products/:id",

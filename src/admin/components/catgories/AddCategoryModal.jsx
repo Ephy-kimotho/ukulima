@@ -11,7 +11,7 @@ import Image from "../common/Image";
 import useAuth from "../../../hooks/useAuth";
 import axios from "axios";
 
-function AddCategoryModal({ showForm, closeModal, heading, categoryValues }) {
+function AddCategoryModal({ showForm, closeModal, isEditing, categoryValues }) {
   // Get the token from the  auth provider
   const { token } = useAuth();
 
@@ -24,8 +24,8 @@ function AddCategoryModal({ showForm, closeModal, heading, categoryValues }) {
     file: undefined,
   };
 
-  // TODO: write a function to submit form values
-  const handleSubmit = async (values) => {
+  // Function to add new category
+  const addNewCategory = async (values, actions) => {
     // create a new Form data object
     const formData = new FormData();
 
@@ -42,7 +42,10 @@ function AddCategoryModal({ showForm, closeModal, heading, categoryValues }) {
         },
       });
 
-      // dispatch the action to get categories
+      // Reset the form
+      actions.resetForm();
+
+      // dispatch the action to get the updated categories
       dispatch(getCategories());
 
       // show success message and close the modal
@@ -55,6 +58,49 @@ function AddCategoryModal({ showForm, closeModal, heading, categoryValues }) {
     }
   };
 
+  // Function to update existing category
+  const updateCategory = async (values, actions) => {
+    try {
+      const { data } = await axios.put(
+        `${DEV_URL}/staff/categories/${values.id}`,
+        {
+          name: values.name,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // Reset the form
+      actions.resetForm();
+
+      console.log("Category updated sucessfully: ", data);
+
+      // show success message incase update is successful
+      toast.success(data.msg);
+
+      // Get the newly updated categories and display them
+      dispatch(getCategories());
+
+      // close the modla
+      closeModal();
+    } catch (error) {
+      console.error("Failed to update category: ", error);
+      toast.error("Failed to update category.");
+    }
+  };
+
+  // This function will call appropriate method based on editing status
+  const handleSubmit = async (values, actions) => {
+    if (isEditing) {
+      await updateCategory(values, actions);
+    } else {
+      await addNewCategory(values, actions);
+    }
+  };
+
   return (
     <div
       className={`${
@@ -63,13 +109,13 @@ function AddCategoryModal({ showForm, closeModal, heading, categoryValues }) {
     >
       <Formik
         initialValues={initialValues}
-        validationSchema={addCategoryModalSchema}
+        validationSchema={addCategoryModalSchema(isEditing)}
         onSubmit={handleSubmit}
       >
         <Form className="bg-white pt-5 pb-10 px-10  rounded-3xl w-11/12 md:w-4/5">
           {/* Header */}
           <h2 className="text-[#1E2025] capitalize mt-3 mb-6 font-bold font-poppins text-2xl md:text-3xl">
-            {heading}
+            {isEditing ? "Edit category" : "Add new category"}
           </h2>
           {/* Form fields */}
 
@@ -80,7 +126,7 @@ function AddCategoryModal({ showForm, closeModal, heading, categoryValues }) {
             placeholder="i.e seeds"
             className="mb-4"
           />
-          <Image name="file" />
+          {!isEditing && <Image name="file" />}
 
           {/* Form action buttons */}
           <div className="flex gap-2 flex-col md:flex-row justify-around pt-10">

@@ -155,7 +155,7 @@ function Products() {
         />
       )}
       {/* Pagination buttons section */}
-      <div className="w-11/12 my-8  mx-auto py-4 flex flex-col gap-5 md:gap-0 md:flex-row md:justify-between">
+      <div className="w-11/12 mt-8  mx-auto py-4 flex flex-col gap-5 md:gap-0 md:flex-row md:justify-between">
         <Button
           action={goToPreviousPage}
           disabled={!products.has_prev}
