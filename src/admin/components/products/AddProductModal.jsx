@@ -17,7 +17,7 @@ import axios from "axios";
 function AddProductModal({
   showForm,
   closeModal,
-  heading,
+  isEditing,
   productValues,
   categories,
 }) {
@@ -38,8 +38,8 @@ function AddProductModal({
     file: undefined,
   };
 
-  //Function to submit form values
-  const handleSubmit = async (values, actions) => {
+  // Function to add product to the database
+  const addProduct = async (values, actions) => {
     // create a new FormData object
     const formData = new FormData();
 
@@ -65,7 +65,7 @@ function AddProductModal({
       // Reset form values
       actions.resetForm();
 
-      // dispatch get products action
+      // dispatch get products action to get latest products
       dispatch(getProducts(currentPage));
 
       closeModal();
@@ -73,7 +73,52 @@ function AddProductModal({
       console.error("Error uploading product:", error);
 
       // show error message incase upload fails
-      toast.error("Failed to upload product, please try again.");
+      toast.error("Failed to upload product.");
+    }
+  };
+
+  // Function to edit product in the database
+  const editProduct = async (values, actions) => {
+    try {
+      await axios.patch(
+        `${DEV_URL}/staff/products/${values.id}`,
+        {
+          productName: values.productName,
+          price: values.price,
+          quantity: values.quantity,
+          categoryId: values.categoryId,
+          productDescription: values.productDescription,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      // show success message incase upload is successful
+      toast.success(`${values.productName} updated successfully.`);
+
+      // Reset form values
+      actions.resetForm();
+
+      // dispatch get products action to get latest products
+      dispatch(getProducts(currentPage));
+      closeModal();
+    } catch (error) {
+      console.error("Error updating product:", error);
+
+      // show error message incase upload fails
+      toast.error("Failed to update product.");
+    }
+  };
+
+  // This function is called when the form is submitted
+  const handleSubmit = async (values, actions) => {
+    if (isEditing) {
+      await editProduct(values, actions);
+    } else {
+      await addProduct(values, actions);
     }
   };
 
@@ -81,17 +126,17 @@ function AddProductModal({
     <div
       className={`${
         showForm ? "flex" : "hidden"
-      } absolute  inset-0 z-40 bg-night bg-opacity-80  justify-center items-start md:pt-16`}
+      } absolute  inset-0 z-40 bg-night bg-opacity-80  justify-center items-start md:pt-20`}
     >
       <Formik
         initialValues={initialValues}
-        validationSchema={addProductModalSchema}
+        validationSchema={addProductModalSchema(isEditing)}
         onSubmit={handleSubmit}
       >
         <Form className="bg-white pt-5 pb-5 px-5  md:pb-7 md:px-7 rounded-2xl w-11/12 md:w-4/5">
           {/* Header */}
           <h2 className="text-[#1E2025] capitalize  font-bold font-poppins text-2xl md:text-3xl mb-4">
-            {heading}
+            {isEditing ? "Edit Product" : "Add New Product"}
           </h2>
 
           {/* Product Name and price Form fields */}
@@ -133,7 +178,7 @@ function AddProductModal({
             placeholder="write something about the product..."
           />
 
-          <Image name="file" />
+          {!isEditing && <Image name="file" />}
 
           {/* Form action buttons */}
           <div className="flex gap-2 pt-4 flex-col md:flex-row justify-around">
@@ -145,7 +190,7 @@ function AddProductModal({
               Cancel
             </Button>
             <Button category="add" type="submit" className="w-full md:w-48">
-              Save
+              {isEditing ? "Save Changes" : "Add Product"}
             </Button>
           </div>
         </Form>

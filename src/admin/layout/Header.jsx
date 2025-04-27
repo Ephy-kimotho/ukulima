@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { ChevronDown, ChevronUp, X, Box } from "lucide-react";
 import { FiMenu } from "react-icons/fi";
-import { Link, NavLink } from "react-router-dom";
 import { FaShoppingBag } from "react-icons/fa";
 import { MdDashboard, MdOutlineCategory } from "react-icons/md";
 import angelina from "/images/angelina.png";
@@ -58,9 +57,12 @@ function Header() {
           <FiMenu size={30} color="#1E1E42" />
         </button>
 
-        <h1 className="font-poppins font-bold md:text-3xl capitalize text-[#1E1E42]">
+        <Link
+          to="/admin"
+          className="font-poppins font-bold md:text-3xl capitalize text-[#1E1E42]"
+        >
           Ukulima
-        </h1>
+        </Link>
       </div>
 
       <article className="flex items-center gap-2">

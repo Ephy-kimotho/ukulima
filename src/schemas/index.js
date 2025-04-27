@@ -79,29 +79,32 @@ export const checkoutSchema = Yup.object({
     .required("Required*"),
 });
 
-export const addProductModalSchema = Yup.object({
-  productName: Yup.string()
-    .matches(/^[^\d]+$/, "Product name must not contain any numbers")
-    .min(3, "Product name should be atleast 3 characters")
-    .required("Required"),
-  price: Yup.number()
-    .positive("Price must be non-zero and positive")
-    .required("Required"),
-  quantity: Yup.number()
-    .positive("Quantity must be non-zero and positive")
-    .required("Required"),
-  categoryId: Yup.string().required("Required"),
-  productDescription: Yup.string()
-    .min(10, "Description should be at least 10 characters")
-    .required("Required"),
-  file: Yup.mixed()
-    .required("Required")
-    .test(
-      "fileSize",
-      "Image is too large",
-      (value) => value && value.size <= 2 * 1024 * 1024
-    ),
-});
+export const addProductModalSchema = (isEditing) =>
+  Yup.object({
+    productName: Yup.string()
+      .matches(/^[^\d]+$/, "Product name must not contain any numbers")
+      .min(3, "Product name should be atleast 3 characters")
+      .required("Required"),
+    price: Yup.number()
+      .positive("Price must be non-zero and positive")
+      .required("Required"),
+    quantity: Yup.number()
+      .positive("Quantity must be non-zero and positive")
+      .required("Required"),
+    categoryId: Yup.string().required("Required"),
+    productDescription: Yup.string()
+      .min(10, "Description should be at least 10 characters")
+      .required("Required"),
+    file: isEditing
+      ? Yup.mixed().notRequired()
+      : Yup.mixed()
+          .required("Required")
+          .test(
+            "fileSize",
+            "Image is too large",
+            (value) => value && value.size <= 2 * 1024 * 1024
+          ),
+  });
 
 export const addCategoryModalSchema = Yup.object({
   name: Yup.string()

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { MdOutlineMoreHoriz } from "react-icons/md";
+import { Link } from "react-router-dom";
 import OrderStatusCard from "./OrderStatusCard";
 
 function Table({ orders }) {
@@ -7,22 +7,22 @@ function Table({ orders }) {
     <table className="w-full">
       <thead className="bg-[#088732] bg-opacity-85 text-white">
         <tr>
-          <th className="py-3  px-4 lg:px-6 font-semibold capitalize text-left  md:text-xl">
+          <th className="py-3  px-4  font-semibold capitalize text-left  md:text-xl">
             id
           </th>
-          <th className="py-3  px-4 lg:px-6 font-semibold text-left md:text-xl hidden md:table-cell">
+          <th className="py-3  px-4 font-semibold text-left md:text-xl hidden md:table-cell">
             User
           </th>
-          <th className="py-3  px-4 lg:px-6 font-semibold text-left md:text-xl">
+          <th className="py-3  px-4 font-semibold text-left md:text-xl">
             Date
           </th>
-          <th className="py-3 px-4 lg:px-6 font-semibold text-left md:text-xl">
+          <th className="py-3 px-4 font-semibold text-center md:text-xl">
             Status
           </th>
-          <th className="py-3  px-4 lg:px-6 font-semibold text-left md:text-xl hidden md:table-cell">
+          <th className="py-3  px-4 font-semibold text-center md:text-xl hidden md:table-cell">
             Total
           </th>
-          <th className="py-3 px-2 font-semibold text-left md:text-xl">
+          <th className="py-3 px-2 font-semibold text-center md:text-xl">
             Action
           </th>
         </tr>
@@ -32,25 +32,28 @@ function Table({ orders }) {
         {orders?.map((order) => (
           <tr
             key={order.orderID}
-            className="border-b last:border-none even:bg-gray-200 border-black"
+            className="border-b text-xs md:text-base last:border-none even:bg-gray-200 border-black"
           >
-            <td className="py-3 px-4 lg:px-6 font-bold text-black text-opacity-85">
+            <td className="py-3 px-4 font-bold text-black text-opacity-85">
               {order.orderID}
             </td>
-            <td className="py-3 lg:px-6 text-sm lg:text-base hidden md:table-cell">
-              {order.user}
+            <td className="py-3 hidden md:table-cell">{order.user}</td>
+            <td className="py-3  px-2 ">
+              {new Date(order.order_date).toDateString()}
             </td>
-            <td className="py-3 text-sm lg:text-base px-2 lg:px-6">
-              {order.order_date}
-            </td>
-            <td className="py-3 lg:px-6">
+            <td className="py-3 pr-2">
               <OrderStatusCard type={order.order_status.toLowerCase()} />
             </td>
-            <td className="py-3 text-center text-sm lg:text-base  lg:px-6 hidden md:table-cell">
-              {order.total_amount}
+            <td className="py-3 text-center hidden md:table-cell">
+              {Number(order.total_amount)}
             </td>
-            <td className="py-3  flex justify-center items-center">
-              <MdOutlineMoreHoriz size={30} color="0D141C" />
+            <td className="text-center capitalize">
+              <Link
+                to={`/admin/orders/${order.orderID}`}
+                className="hover:text-blue-700 hover:underline"
+              >
+                view details
+              </Link>
             </td>
           </tr>
         ))}

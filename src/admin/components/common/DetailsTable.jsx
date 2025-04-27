@@ -1,4 +1,6 @@
-function DetailsTable() {
+/* eslint-disable react/prop-types */
+
+function DetailsTable({ orderItems }) {
   return (
     <table className="w-full  text-sm md:text-base ">
       <thead className="text-black font-bold bg-[#cccccc]">
@@ -10,26 +12,14 @@ function DetailsTable() {
         </tr>
       </thead>
       <tbody>
-        <tr className="border border-black bg-white">
-          <td className="py-3 px-2 md:px-4 ">Tilers</td>
-          <td className="py-3 px-2 md:px-4 ">2</td>
-          <td className="py-3 px-2 md:px-4 ">Ksh. 15000</td>
-          <td className="py-3 px-2 md:px-4 ">Ksh. 30000</td>
-        </tr>
-
-        <tr className="border bg-zinc-200 border-black">
-          <td className="py-3 px-2 md:px-4 ">Cow Milker</td>
-          <td className="py-3 px-2 md:px-4 ">1</td>
-          <td className="py-3 px-2 md:px-4 ">Ksh. 20000</td>
-          <td className="py-3 px-2 md:px-4">Ksh. 20000</td>
-        </tr>
-
-        <tr className="border border-black  bg-white">
-          <td className="py-3 px-2 md:px-4 ">Altrazine</td>
-          <td className="py-3 px-2 md:px-4 ">2</td>
-          <td className="py-3 px-2 md:px-4 ">Ksh. 450</td>
-          <td className="py-3 px-2 md:px-4 ">Ksh. 900</td>
-        </tr>
+        {orderItems?.map((item, idx) => (
+          <tr key={idx} className="border border-black  bg-white">
+            <td className="py-3 px-2 md:px-4 ">{item.productName}</td>
+            <td className="py-3 px-2 md:px-12 ">{item.quantity}</td>
+            <td className="py-3 px-2 md:px-4 ">Ksh. {item.price}</td>
+            <td className="py-3 px-2 md:px-4 ">Ksh. {item.sub_total}</td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );

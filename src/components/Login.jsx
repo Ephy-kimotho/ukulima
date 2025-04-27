@@ -57,7 +57,6 @@ function Login() {
       } else {
         navigate(path);
       }
-      
       /* Show toast message and navigate to necessary path */
       toast.success("Login successful.");
     } catch (error) {

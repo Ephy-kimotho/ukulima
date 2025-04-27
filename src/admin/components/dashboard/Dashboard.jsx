@@ -1,13 +1,22 @@
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { getOrders } from "../../../redux/orders/orderActions";
+import useAuth from "../../../hooks/useAuth";
 import CardListing from "./CardListing";
 import Table from "../common/Table";
-import { useSelector } from "react-redux";
 
 function Dashboard() {
   const { items } = useSelector((state) => state.orders);
+  const { token } = useAuth();
+  const dispatch = useDispatch();
 
-  // Get orders from the redux store
+  // Fetch orders when the component mounts and when the token changes
+  useEffect(() => {
+    dispatch(getOrders(token));
+  }, [dispatch, token]);
+
+  // Get orders from the items object if it exists
   const orders = items?.orders || [];
-  console.log(items);
 
   return (
     <section className="px-4 py-24 md:p-6">

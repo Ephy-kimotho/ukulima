@@ -24,7 +24,7 @@ function Categories() {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   // Get all the categories from the response
-  const categories = storedCategories?.items.categories;
+  const categories = storedCategories?.items?.categories || [];
 
   // Function to toggle form visibility
   const toggleVisibility = () => setShowForm(!showForm);

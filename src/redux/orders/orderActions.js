@@ -35,7 +35,6 @@ export function getOrders(token) {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(data);
       dispatch(orderSuccess(data));
     } catch (error) {
       dispatch(

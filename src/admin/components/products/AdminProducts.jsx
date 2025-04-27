@@ -3,6 +3,9 @@ import { useSearchParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { DEV_URL } from "../../../constants";
 import { getProducts } from "../../../redux/products/productActions";
+import useAuth from "../../../hooks/useAuth";
+import axios from "axios";
+import toast from "react-hot-toast";
 import ProductCard from "../common/ProductCart";
 import AddProductModal from "./AddProductModal";
 import Button from "../common/Button";
@@ -18,6 +21,9 @@ function AdminProducts() {
 
   // Initialize the Redux dispatch function
   const dispatch = useDispatch();
+
+  // Get the access token from the Auth provider
+  const { token } = useAuth();
 
   // State variables for managing product values, modal visibility, and editing status
   const [productValues, setProductValues] = useState(null);
@@ -84,21 +90,44 @@ function AdminProducts() {
   };
 
   // Function to delete an item using its id
-  const deleteItem = (id) => {
-    console.log(`Deleted item with id ${id}.`);
+  const deleteItem = async (id) => {
+    try {
+      const { data } = await axios.delete(`${DEV_URL}/staff/products/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // show success message
+      toast.success(data.msg);
+
+      // Dispatch action to update products in redux store
+      dispatch(getProducts(currentPage));
+    } catch (error) {
+      console.error("Error deleting item: ", error);
+      toast.error("Delete failed, try again.");
+    }
   };
 
   // Function to edit an item
   const editItem = (product) => {
-    // show modal with editing status
-    setProductValues(product);
+    // set values for the item to edit and show the modal
+    setProductValues({
+      productName: product.productName,
+      id: product.productsID,
+      price: product.price,
+      quantity: product.quantity,
+      productDescription: product.productDescription,
+      categoryId: "",
+      file: undefined,
+    });
     setIsEditing(true);
     toggleVisibility();
   };
 
   return (
     <section className="bg-[#fafafa] min-h-screen rounded-md shadow-lg px-4 pt-28 md:pt-2 md:pb-10">
-      {/* Add Product Modal */}
+      {/* Modal to add a product or edit a product */}
       {showModal &&
         (isEditing ? (
           <AddProductModal
@@ -108,16 +137,16 @@ function AdminProducts() {
               setIsEditing(false);
               setProductValues(null);
             }}
-            heading="Edit product"
             categories={categories}
+            isEditing={isEditing}
             productValues={productValues}
           />
         ) : (
           <AddProductModal
             showForm={showModal}
             closeModal={toggleVisibility}
-            heading="Add new product"
             categories={categories}
+            isEditing={isEditing}
           />
         ))}
 
@@ -169,8 +198,8 @@ function AdminProducts() {
             <ProductCard
               key={product.productsID}
               product={product}
-              deleteItem={deleteItem}
-              editItem={editItem}
+              onDelete={() => deleteItem(product.productsID)}
+              onEdit={() => editItem(product)}
             />
           ))}
         </div>

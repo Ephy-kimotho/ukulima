@@ -23,7 +23,7 @@ const ProductCard = ({ product, onEdit, onDelete }) => {
           <Button category="add" action={onEdit}>
             Edit
           </Button>
-          <Button category="delete" action={onDelete}>
+          <Button category="delete" action={() => onDelete(product.productsID)}>
             Delete
           </Button>
         </div>
