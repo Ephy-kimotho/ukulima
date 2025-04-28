@@ -1,24 +1,24 @@
+import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { getCategories } from "../../redux/categories/categoriesActions";
+import { CategoryCardSkeletonWrapper } from "../../skeletons";
 import CategoryCard from "../common/CategoryCard";
-import seeds from "/images/seeds.png";
-import farmTools from "/images/farmTools.png";
-import pesticide from "/images/pesticides.png";
-
-const categories = [
-  {
-    categoryImage: seeds,
-    categoryName: "Farm seeds",
-  },
-  {
-    categoryImage: farmTools,
-    categoryName: "Farm tools",
-  },
-  {
-    categoryImage: pesticide,
-    categoryName: "Pesticides",
-  },
-];
 
 function FeaturedProducts() {
+  const dispatch = useDispatch();
+  const categories = useSelector((state) => state.categories);
+
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch]);
+
+  // Get items, and  isLoading from the categories state
+  const { items, isLoading } = categories;
+
+  // Get product categories from the items object
+  const productCategories = items?.categories || [];
+
   return (
     <section className="py-10 bg-[#F0F0F0]">
       <div className="text-center  w-full">
@@ -28,11 +28,20 @@ function FeaturedProducts() {
         <div className="w-[220px] md:w-[280x] mt-1  h-1 mx-auto  rounded bg-mint"></div>
       </div>
 
-      <div className="mt-8 w-[90%] mx-auto grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-        {categories.map((category, idx) => (
-          <CategoryCard key={idx} {...category} />
-        ))}
-      </div>
+      {isLoading ? (
+        <CategoryCardSkeletonWrapper />
+      ) : (
+        <div className="mt-8 w-[90%] mx-auto grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+          {productCategories?.map((category, idx) => (
+            <Link
+              key={idx}
+              to={`/products?category=${encodeURI(category.name)}`}
+            >
+              <CategoryCard {...category} />
+            </Link>
+          ))}
+        </div>
+      )}
     </section>
   );
 }

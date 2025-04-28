@@ -1,32 +1,79 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Formik, Form } from "formik";
-import { Link } from "react-router-dom";
-import AuthButton from "./common/AuthButton";
-import Input from "./common/Input";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Mail, Eye, EyeOff } from "lucide-react";
 import { loginSchema } from "../schemas";
+import { DEV_URL } from "../constants";
+import toast, { Toaster } from "react-hot-toast";
+import AuthButton from "./common/AuthButton";
+import Input from "./common/Input";
+import WarningToast from "./common/WarningToast";
 import logo from "/icons/logo.png";
+import useAuth from "../hooks/useAuth";
+import axios from "axios";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [storedUser, setStoredUser] = useState(null);
+  const { state } = useLocation();
+  const { setToken } = useAuth();
+  const navigate = useNavigate();
+  const hasShownToast = useRef(false);
+
+  // when the component mounts get the user from local storage
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      setStoredUser(user);
+    }
+  }, []);
+
+  const message = state?.message || null;
+  const path = state?.path || "/";
+
+  // If a message exists and I have not shown toast then  show the toast
+  useEffect(() => {
+    if (message && !hasShownToast.current) {
+      toast.custom(<WarningToast message={message} />);
+      hasShownToast.current = true;
+    }
+  }, [message]);
 
   //Function to toggle password visibility
   const togglePassword = () => setShowPassword(!showPassword);
 
-  //Function to handle form submission
+  //Function to handle login form submission
   const handleSubmit = async (values, action) => {
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 1500);
-    });
+    try {
+      const { data } = await axios.post(`${DEV_URL}/login`, values);
 
-    console.log(values);
-    action.resetForm();
+      /* when login is successfull update accessToken */
+      action.resetForm();
+      setToken(data.access_token);
+
+      if (data.is_staff) {
+        // navigate to admin dashboard
+        navigate("/admin");
+      } else {
+        navigate(path);
+      }
+      /* Show toast message and navigate to necessary path */
+      toast.success("Login successful.");
+    } catch (error) {
+      console.error(error);
+      /* 
+       When an error occurs show a friendly
+       error message to user inorder for him/her to take
+       the right action
+     */
+      const errorMessage = error.response.data.msg;
+      toast.custom(<WarningToast message={errorMessage} />);
+    }
   };
 
   return (
     <section className="flex flex-col sm:flex-row min-h-screen">
+      <Toaster position="top-center" />
       <article className="bg-farmImage bg-cover bg-origin-content bg-left-bottom bg-no-repeat  hidden sm:flex w-1/2 flex-col items-center gap-20">
         <h2 className="font-bold font-nunito text-white text-5xl mt-24">
           Ukulima
@@ -49,8 +96,8 @@ function Login() {
         >
           <Form className="w-11/12 max-w-2xl mx-auto min-h-[90vh]  relative">
             <div className="text-center mb-5">
-              <h3 className="text-emerald font-bold font-nunito text-3xl">
-                Welcome back
+              <h3 className="text-emerald font-bold font-nunito  capitalize text-3xl">
+                Welcome {storedUser ? `back ${storedUser.firstname}` : "back"}
               </h3>
               <p className="text-grey font-nunito text-base">
                 Log in to your account

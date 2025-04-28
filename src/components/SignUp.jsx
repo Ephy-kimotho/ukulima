@@ -1,40 +1,49 @@
 import { useState } from "react";
 import { Formik, Form } from "formik";
+import { useNavigate } from "react-router-dom";
 import { User, Phone, Mail, Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router-dom";
 import { signUpSchema } from "../schemas";
+import { DEV_URL } from "../constants";
+import axios from "axios";
+import useAuth from "../hooks/useAuth";
 import Input from "./common/Input";
 import AuthButton from "./common/AuthButton";
 import ukulimaLogo from "/icons/logo.png";
+import toast, { Toaster } from "react-hot-toast";
 
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const { setUser } = useAuth();
 
   // Function to toggle password visibility
   const togglePassword = () => setShowPassword(!showPassword);
 
   //Function to handle Form Submission
   const handleSubmit = async (values, action) => {
-    /* REPLACE WITH REAL API CALL FOR SIGNUP */
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 1500);
-    });
-
-    console.log(values);
+    const {
+      data: { User },
+    } = await axios.post(`${DEV_URL}/register`, values);
+    setUser(User);
     action.resetForm();
+    toast.success("Account created successfully.");
+    navigate("/login");
   };
+
+  const additionalInputStyles =
+    "bg-moldGreen bg-opacity-20  border-2 border-moldGreen border-opacity-30";
 
   return (
     <section className="">
+      <Toaster position="top-center" />
       <Link to="/" className="pt-3 mt-2 block">
         <img src={ukulimaLogo} alt="Ukulima logo" className="ml-5 w-10 h-10" />
       </Link>
       <Formik
         initialValues={{
-          firstName: "",
-          lastName: "",
+          firstname: "",
+          lastname: "",
           email: "",
           phone: "",
           password: "",
@@ -53,18 +62,18 @@ function SignUp() {
           <div className="grid sm:grid-cols-2 sm:gap-4">
             <Input
               type="text"
-              name="firstName"
+              name="firstname"
               placeholder="First Name"
               icon={User}
-              moreStyles="bg-moldGreen bg-opacity-20  border-2 border-moldGreen border-opacity-30"
+              moreStyles={additionalInputStyles}
             />
 
             <Input
               type="text"
-              name="lastName"
+              name="lastname"
               placeholder="Last Name"
               icon={User}
-              moreStyles="bg-moldGreen bg-opacity-20  border-2 border-moldGreen border-opacity-30"
+              moreStyles={additionalInputStyles}
             />
           </div>
 
@@ -73,7 +82,7 @@ function SignUp() {
             name="email"
             placeholder="Email"
             icon={Mail}
-            moreStyles="bg-moldGreen bg-opacity-20  border-2 border-moldGreen border-opacity-30"
+            moreStyles={additionalInputStyles}
           />
 
           <Input
@@ -81,7 +90,7 @@ function SignUp() {
             name="phone"
             placeholder="Phone Number"
             icon={Phone}
-            moreStyles="bg-moldGreen bg-opacity-20  border-2 border-moldGreen border-opacity-30"
+            moreStyles={additionalInputStyles}
           />
 
           <Input
@@ -90,7 +99,7 @@ function SignUp() {
             placeholder="Password"
             icon={showPassword ? Eye : EyeOff}
             togglePassword={togglePassword}
-            moreStyles="bg-moldGreen bg-opacity-20  border-2 border-moldGreen border-opacity-30"
+            moreStyles={additionalInputStyles}
           />
 
           <div className="text-center my-6">
