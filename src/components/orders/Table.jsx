@@ -26,13 +26,13 @@ function Table({ orders }) {
             <th className="py-3 px-4 lg:px-6 font-semibold text-center md:text-xl">
               Total
             </th>
-            <th className="py-3 px-4 lg:px-6 font-semibold text-center md:text-xl">
+            <th className="py-3 px-4 lg:px-6 font-semibold  md:text-xl">
               Status
             </th>
-            <th className="py-3 px-4 lg:px-6 font-semibold text-center md:text-xl">
+            <th className="py-3 px-4  font-semibold  md:text-xl">
               Date
             </th>
-            <th className="py-3 px-4 lg:px-6 font-semibold text-center md:text-xl">
+            <th className="py-3 px-4 font-semibold  md:text-xl">
               <span className="hidden md:inline">Delivery</span>
               <span>Address</span>
             </th>
@@ -47,19 +47,19 @@ function Table({ orders }) {
                 key={idx}
                 className="border-b last:border-none bg-white even:bg-gray-200 border-black text-sm lg:text-xl"
               >
-                <td className="py-2 px-4 lg:px-6">
+                <td className="py-3 lg:py-5 px-4 lg:px-6">
                   {order.items[0]?.productName}
                 </td>
-                <td className="py-2  text-center ">
+                <td className="py-3 lg:py-5  text-center ">
                   {order.items[0]?.quantity}
                 </td>
-                <td className="py-2 px-2 lg:px-4 ">
+                <td className="py-3 lg:py-5 px-2 lg:px-4 ">
                   Ksh: {order.items[0]?.price}
                 </td>
-                <td className="py-2 px-4 lg:px-6 ">
+                <td className="py-3 lg:py-5 px-4 lg:px-6 ">
                   Ksh: {Number(order.items[0]?.sub_total)}
                 </td>
-                <td className="py-2">
+                <td className="py-3">
                   <span
                     className={`${
                       styles[order.order_status.toLowerCase()]
@@ -68,10 +68,12 @@ function Table({ orders }) {
                     {order.order_status}
                   </span>
                 </td>
-                <td className="py-2 px-4 lg:px-6">
+                <td className="py-3 lg:py-5 text-center px-4">
                   {new Date(order.order_date).toDateString()}
                 </td>
-                <td className="py-2 px-4 lg:px-6">{order.delivery_address}</td>
+                <td className="py-3 lg:py-5 px-4 text-center">
+                  {order.delivery_address}
+                </td>
               </tr>
             );
           })}

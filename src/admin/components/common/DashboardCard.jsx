@@ -8,7 +8,7 @@ function DashboardCard({ title, icon: Icon, quantity }) {
       </h3>
       <Icon size={35} color="#0D141C" />
       <p className="font-bold font-nunito text-[#0D141C] text-2xl">
-        {title === "sales" ? `Ksh ${quantity}` : quantity}
+        {quantity}
       </p>
     </article>
   );
